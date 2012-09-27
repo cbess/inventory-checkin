@@ -1,0 +1,6 @@
+flask
+jinja2
+cherrypy
+flask-admin
+flask-peewee
+# flask-sqlalchemy
