@@ -46,10 +46,10 @@ def get_options():
                       help="Run tests to ensure everything works correctly.")
     add_argument('--runserver', dest='run_server',
                  action='store_true',
-                    help='Run the iMate web server.')
+                    help='Run the web server.')
     add_argument('-v', '--version', dest='show_version',
                  action='store_true',
-                    help='Show iMate version information.')
+                    help='Show version information.')
     # not available, yet
 #    add_argument("-q", "--quiet",
 #                      action="store_false", dest="verbose", default=True,
@@ -66,6 +66,7 @@ def run():
     elif options.show_version:
         pyver = sys.version_info
         print '  Python: v%d.%d.%d' % (pyver.major, pyver.minor, pyver.micro)
+        print '   webapp: v' + get_version_info('webapp')
         print '   Flask: v' + get_version_info('flask')
         print 'CherryPy: v' + get_version_info('cherrypy')
     elif options.run_server:
@@ -78,6 +79,6 @@ def run():
     
 
 if __name__ == '__main__':
-    print 'iMate v%s started' % get_version_info('ici')
+    print 'Running server...'
     run()
-    print 'iMate done.'
+    print 'server done.'
