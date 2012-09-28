@@ -39,6 +39,8 @@ def run():
         import server_cherrypy
         server_cherrypy.run()
     else: # default server (flask/werkzeug)
+        if SERVER_PROCESSES > 1 and SERVER_IS_THREADED:
+            raise Exception('Choose either multi-threaded or multi-process')
         # dev or low traffic
         app.run(
             host=core_settings.SERVER_ADDRESS,

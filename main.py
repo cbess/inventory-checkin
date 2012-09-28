@@ -69,7 +69,7 @@ def run():
         print '   Flask: v' + get_version_info('flask')
         print 'CherryPy: v' + get_version_info('cherrypy')
     elif options.run_server:
-        print 'Server: %s' % settings.SERVER_TYPE
+        print 'Server: %s' % server.get_server_type()
         # launch web server
         server.run()
     else:
