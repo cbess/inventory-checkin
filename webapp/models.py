@@ -1,6 +1,7 @@
 from core import peewee
 from flask.ext import admin
 from flask.ext.admin.contrib import peeweemodel
+import sqlite3
 
 db = peewee.SqliteDatabase('webapp.db', check_same_thread=False)
 
@@ -20,7 +21,10 @@ class User(BaseModel):
 
 
 def setup():
-    try:
-        User.create_table()
-    except:
-        pass
+    tables = (User,)
+    for table in tables:
+        try:
+            table.create_table()
+        except sqlite3.OperationalError:
+            # table may already exist
+            pass
