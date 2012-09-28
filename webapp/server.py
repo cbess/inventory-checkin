@@ -1,10 +1,9 @@
 # http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple
-from core import flask
 from core import settings as core_settings
+from core import app
 import webapp.settings
-
-app = flask.Flask('webapp')
-app.config.from_object('webapp.settings')
+from webapp import admin
+from webapp import models
 
 import views
 
@@ -33,6 +32,10 @@ def get_server_type():
 def run():
     """Runs the flask server
     """
+    # pre server start
+    admin.setup()
+    models.setup()
+    # start/run server
     server_type = core_settings.SERVER_TYPE
     if server_type == 'cherrypy':
         # near-production level server (small to medium traffic)

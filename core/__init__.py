@@ -3,6 +3,8 @@ import peewee
 import flask
 import settings
 
+app = flask.Flask('webapp')
+app.config.from_object('webapp.settings')
 
 def get_version_info(module):
     """Returns the version information for the target core module

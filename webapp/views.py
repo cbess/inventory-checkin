@@ -2,7 +2,7 @@
 # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
 
 import os
-from server import app
+from core import app
 from flask import render_template, request, abort, Response
 from core import settings as core_settings
 from core.utils import debug, read_file
