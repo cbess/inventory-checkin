@@ -5,7 +5,6 @@ import os
 from server import app
 from flask import render_template, request, abort, Response
 from core import settings as core_settings
-from core import SherlockMeta
 from core.utils import debug, read_file
 # from template_filters import register_filters
 

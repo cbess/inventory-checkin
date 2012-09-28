@@ -19,6 +19,7 @@ except ImportError:
     pass
 
 from webapp import server
+from core import get_version_info
 import tests
 import settings
 import os

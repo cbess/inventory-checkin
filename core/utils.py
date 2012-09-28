@@ -26,7 +26,7 @@ def read_file(path, encoding='utf-8'):
     return contents
 
 
-def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding='utf-8'):
+def safe_read_file(path, ignore_errors=False, encoding='utf-8'):
     """Returns the contents of the file at the specified path. Ignores any
     errors that may occur
     """
