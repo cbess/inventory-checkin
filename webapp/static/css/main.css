@@ -1,0 +1,51 @@
+/*
+ * Standard Styles ***
+ */
+.clear {
+    clear: both;
+}
+html body {
+    margin: 8px;
+    font-size: 15px;
+    color: black;
+}
+#content {
+    width: 850px;
+    margin: 0 auto;
+}
+.error {
+    color: #800000;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: blue;
+}
+a:visited {
+    color: gray;
+}
+a.clear-btn {
+    position: relative;
+    top: 2px;
+}
+label {
+    width: auto;
+}
+
+/*top banner styles*/
+#top-banner {
+    height: 40px;
+    margin: -8px -8px 7px;
+    box-shadow: 5px 2px 5px #777;
+}
+#top-banner #banner-text {
+    text-transform: uppercase;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    color: silver;
+    font-size: 20px;
+    text-shadow: 0 0 silver, -2px 0 black;
+}
+

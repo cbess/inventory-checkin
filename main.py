@@ -1,4 +1,4 @@
-#! python
+#!/usr/bin/env python
 # encoding: utf-8
 """ 
 main.py
@@ -45,10 +45,10 @@ def get_options():
                       help="Run tests to ensure everything works correctly.")
     add_argument('--runserver', dest='run_server',
                  action='store_true',
-                    help='Run the Sherlock web server.')
+                    help='Run the iMate web server.')
     add_argument('-v', '--version', dest='show_version',
                  action='store_true',
-                    help='Show sherlock version information.')
+                    help='Show iMate version information.')
     # not available, yet
 #    add_argument("-q", "--quiet",
 #                      action="store_false", dest="verbose", default=True,
@@ -77,6 +77,6 @@ def run():
     
 
 if __name__ == '__main__':
-    print 'inventory checkin v%s started' % get_version_info('ici')
+    print 'iMate v%s started' % get_version_info('ici')
     run()
-    print 'inventory checkin done.'
+    print 'iMate done.'
