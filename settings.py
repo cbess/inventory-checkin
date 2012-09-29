@@ -39,8 +39,8 @@ SERVER_ADDRESS = '127.0.0.1'
 
 # The banner text displayed in the header of each page.
 # type: string/html
-# default: 'Sherlock Search'
-SITE_BANNER_TEXT = 'Inventory Mate'
+# default: 'InventoryMate'
+SITE_BANNER_TEXT = 'InventoryMate'
 
 # The site title text (displayed in browser tab or title bar of window).
 # This is appended to each auto-generated page title.

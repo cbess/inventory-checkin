@@ -39,7 +39,6 @@ label {
     box-shadow: 5px 2px 5px #777;
 }
 #top-banner #banner-text {
-    text-transform: uppercase;
     position: relative;
     top: 10px;
     left: 20px;

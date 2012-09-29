@@ -20,7 +20,24 @@
             <!-- Start custom banner HTML here -->
             <span id='banner-text'>{{ site_banner_text }}</span>
             <!-- End custom banner HTML here -->
+
             {% block top_banner %}
+            <div id="menu">
+                <div class="btn-group">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Menu
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% if user and user.is_authenticated() %}
+                    <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
+                    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('login_view') }}">Login</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+            </div>
             {% endblock %}
         </div>
 

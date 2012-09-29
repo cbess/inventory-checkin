@@ -1,5 +1,5 @@
 {% extends 'admin/master.html' %}
 {% block body %}
-    Hello {{ user.username }} (admin)!
+    Hello {{ user.name }} (admin)!
     <a href="{{ url_for('logout_view') }}" class="btn btn-inverse">Logout</a>
 {% endblock %}

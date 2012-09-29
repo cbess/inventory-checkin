@@ -12,10 +12,13 @@ class BaseModel(peewee.Model):
         database = db
 
 
-class User(BaseModel):
-    username = peewee.CharField(max_length=80)
-    password = peewee.CharField(max_length=250)
+class Person(BaseModel):
+    name = peewee.CharField(max_length=80)
+
+
+class User(Person):
     email = peewee.CharField(max_length=120)
+    password = peewee.CharField(max_length=250)
 
     # Flask-Login integration
     def is_authenticated(self):
@@ -31,7 +34,19 @@ class User(BaseModel):
         return self.id
 
     def __unicode__(self):
-        return self.username
+        return self.email
+
+
+class InventoryItem(BaseModel):
+    name = peewee.CharField(max_length=255)
+    identifier = peewee.CharField(unique=True, null=True, max_length=500)
+    comment = peewee.CharField(null=True, max_length=200)
+    date_added = peewee.DateTimeField(null=True)
+
+
+class InventoryLog(BaseModel):
+    status = peewee.CharField(choices=['Checkin', 'Checkout'])
+    date_mod = peewee.DateTimeField()
 
 
 def setup():
@@ -39,6 +54,14 @@ def setup():
     for table in tables:
         try:
             table.create_table()
+            if User == table:
+                # add an admin user
+                User.insert(
+                    name='admin',
+                    email='admin@example.com',
+                    password='admin'
+                ).execute()
+                pass
         except sqlite3.OperationalError:
             # table may already exist
             pass

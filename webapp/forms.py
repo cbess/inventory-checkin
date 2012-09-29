@@ -19,4 +19,7 @@ class LoginForm(wtf.Form):
             raise wtf.ValidationError('Invalid password')
 
     def get_user(self):
-        return User.select().get(username=self.login.data)
+        try:
+            return User.select().get(email=self.login.data)
+        except User.DoesNotExist:
+            pass

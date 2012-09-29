@@ -5,14 +5,15 @@ from core import app
 from core import settings
 from core import utils
 
+
 class AdminModelView(adminview.ModelView):
     def is_accessible(self):
         return login.current_user.is_authenticated()
 
 
 class UserAdmin(AdminModelView):
-    list_columns = ('username', 'email')
-    searchable_columns = ('username', User.username)
+    list_columns = ('name', 'email')
+    searchable_columns = ('email', User.email)
 
 
 # Create customized index view class
@@ -33,7 +34,10 @@ def init_login():
     # Create user loader function
     @login_manager.user_loader
     def load_user(user_id):
-        return User.select().get(id=user_id)
+        try:
+            return User.select().get(id=user_id)
+        except User.DoesNotExist:
+            pass
 
 
 def setup():
