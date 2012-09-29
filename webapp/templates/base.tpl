@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html class='{{ html_css_class }}'>
 
     <head>
@@ -8,7 +9,8 @@
         <link rel="stylesheet" href="/static/css/background-gradients.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
         <script src='/static/js/jquery.min.js'></script>
-        
+        <script src='/static/js/bootstrap.min.js'></script>
+
         {% block header %}
         {% endblock %}
     </head>
@@ -18,6 +20,8 @@
             <!-- Start custom banner HTML here -->
             <span id='banner-text'>{{ site_banner_text }}</span>
             <!-- End custom banner HTML here -->
+            {% block top_banner %}
+            {% endblock %}
         </div>
 
         <div id="content">

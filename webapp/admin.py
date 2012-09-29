@@ -5,7 +5,12 @@ from core import app
 from core import settings
 from core import utils
 
-class UserAdmin(adminview.ModelView):
+class AdminModelView(adminview.ModelView):
+    def is_accessible(self):
+        return login.current_user.is_authenticated()
+
+
+class UserAdmin(AdminModelView):
     list_columns = ('username', 'email')
     searchable_columns = ('username', User.username)
 

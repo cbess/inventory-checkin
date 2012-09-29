@@ -10,7 +10,6 @@ html body {
     color: black;
 }
 #content {
-    width: 850px;
     margin: 0 auto;
 }
 .error {
@@ -48,4 +47,9 @@ label {
     font-size: 20px;
     text-shadow: 0 0 silver, -2px 0 black;
 }
-
+#top-banner #menu {
+    float: right;
+    position: relative;
+    right: 100px;
+    top: 5px;
+}
