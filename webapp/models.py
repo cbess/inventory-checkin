@@ -45,12 +45,14 @@ class InventoryItem(BaseModel):
 
 
 class InventoryLog(BaseModel):
-    status = peewee.CharField(choices=['Checkin', 'Checkout'])
+    user = peewee.ForeignKeyField(User, related_name='logs')
+    item = peewee.ForeignKeyField(InventoryItem, related_name='logs')
+    status = peewee.CharField(choices=[(1, 'Checkin'), (2, 'Checkout')])
     date_mod = peewee.DateTimeField()
 
 
 def setup():
-    tables = (User,)
+    tables = (User, InventoryItem, InventoryLog)
     for table in tables:
         try:
             table.create_table()
