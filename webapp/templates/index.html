@@ -15,7 +15,7 @@
         <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
         <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
         {% else %}
-        <a href="{{ url_for('login_view') }}">Login</a>
+        <li><a href="{{ url_for('login_view') }}">Login</a></li>
         {% endif %}
       </ul>
     </div>
