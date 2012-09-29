@@ -56,6 +56,11 @@ SITE_TITLE = 'iMate'
 # default: black
 SITE_BANNER_COLOR = 'black'
 
+# The name of the database or the path to the database.
+# type: string
+# default: webapp.db
+DATABASE_NAME = 'webapp.db'
+
 
 # Customzie the settings per installation
 try:

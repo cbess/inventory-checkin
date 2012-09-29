@@ -4,5 +4,10 @@
 {% endblock %}
 
 {% block content %}
-
+    {% if user and user.is_authenticated() %}
+        Hello {{ user.username }}! <a href="{{ url_for('logout_view') }}">Logout</a>
+    {% else %}
+        Welcome!
+        <a href="{{ url_for('login_view') }}">Login</a>
+    {% endif %}
 {% endblock %}
