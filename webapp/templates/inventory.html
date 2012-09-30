@@ -17,20 +17,25 @@
 
     <table id="items">
     {% for item in items %}
-        <tr>
+        <tr id="item-{{ item.id }}">
             <td class="device-name">
                 {{ item.name }}
             </td>
             <td class="person">
-                <select class="person-list">
-                    <option value="">Available</option>
+                <select class="person-list" {% if item.status == 1 %}DISABLED{% endif %}>
+                    <option value="0">Available</option>
                 {% for person in persons %}
-                    <option value="{{ person.id }}">{{ person.name }}</option>
+                    {% set selected = '' %}
+                    {% if item.status == 1 %}
+                        {# only if it is checked out do we grab the latest person #}
+                        {% if item.get_latest_person().id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
+                    {% endif %}
+                    <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
                 {% endfor %}
                 </select>
             </td>
             <td class="action">
-                <input type="checkbox" value="" /> Checked Out
+                <input type="checkbox" class="checkbox" value="{{ item.id }}" {% if item.status == 1 %}CHECKED{% endif %} />
             </td>
         </tr>
     {% else %}

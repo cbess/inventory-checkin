@@ -9,6 +9,7 @@ from core import settings as core_settings
 from core.utils import debug, read_file
 from forms import LoginForm
 from models import Person, InventoryLog, InventoryItem
+from datetime import datetime
 # from template_filters import register_filters
 
 # register template filters
@@ -67,3 +68,20 @@ def inventory_view():
     }
     add_default_response(response)
     return render_template('inventory.html', **response)
+
+
+# ajax only
+@app.route('/inventory-update', methods=['POST'])
+def inventory_update_view():
+    # add a log
+    InventoryLog.create(
+        person=Person.get(id=request.form['personid']),
+        item=InventoryItem.get(id=request.form['itemid']),
+        status=int(request.form['status']),
+        date_added=datetime.now()
+    )
+    # update the item status
+    item = InventoryItem.get(id=request.form['itemid'])
+    item.status = int(request.form['status'])
+    item.save()
+    return 'ok'

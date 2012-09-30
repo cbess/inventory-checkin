@@ -4,7 +4,7 @@ from flask.ext import admin
 from flask.ext.admin.contrib import peeweemodel
 import sqlite3
 
-INVENTORY_STATUS = [(1, 'Checkin'), (2, 'Checked out')]
+INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 db = peewee.SqliteDatabase(settings.DATABASE_NAME, check_same_thread=False)
 
 
@@ -53,12 +53,23 @@ class InventoryItem(BaseModel):
     def __unicode__(self):
         return self.name
 
+    def get_latest_person(self):
+        # get the latest log for this item
+        try:
+            log = InventoryLog.select().order_by(('date_added', 'DESC')).get(item=self)
+        except InventoryLog.DoesNotExist:
+            return None
+        return log.person
+
 
 class InventoryLog(BaseModel):
     person = peewee.ForeignKeyField(Person, related_name='logs')
     item = peewee.ForeignKeyField(InventoryItem, related_name='logs')
     status = peewee.IntegerField(default=2, choices=INVENTORY_STATUS)
     date_added = peewee.DateTimeField()
+
+    class Meta:
+        ordering = (('date_added', 'desc'),)
 
     def __unicode__(self):
         return u'%s - %s' % (status, date_added)
