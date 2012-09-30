@@ -55,7 +55,7 @@ $(function() {
                     format = '%s checked in %s';
                 }
 
-                $alert.html($.sprintf(format, personName, itemName)).fadeIn();
+                $alert.html($.sprintf('<strong>info</strong> '+format, personName, itemName)).fadeIn();
 
                 // hide it
                 setTimeout(function() {

@@ -1,7 +1,10 @@
 from flask.ext import admin, login
+from flask import flash
 from flask.ext.admin.contrib import peeweemodel as adminview
 from models import User, Person, \
-    InventoryItem, InventoryLog, INVENTORY_STATUS
+    InventoryItem, InventoryLog, InventoryGroup, \
+    INVENTORY_STATUS
+import sqlite3
 from core import app
 from core import settings
 from core import utils
@@ -44,16 +47,27 @@ class InventoryItemAdmin(AdminModelView):
     }
 
     def create_model(self, form):
+        if InventoryItem.filter(identifier=form.identifier.data).exists():
+            flash('Identifier (%s) is already in use' % form.identifier.data)
+            return False
         # overriden to update the date values of the model
         now = datetime.now()
-        InventoryItem.create(
+        item = InventoryItem.insert(
             name=form.name.data,
             identifier=form.identifier.data,
             comment=form.comment.data,
             status=form.status.data,
+            group=form.group.data,
             date_added=now,
             date_updated=now
         )
+        try:
+            item.execute()
+        except sqlite3.IntegrityError, e:
+            flash('Unable to add the item', category='error')
+            if settings.DEBUG:
+                flash('%s' % e, category='error')
+            return False
         return True
 
     def update_model(self, form, model):
@@ -104,6 +118,7 @@ def setup():
 
     adm.add_view(UserAdmin(User))
     adm.add_view(PersonAdmin(Person))
+    adm.add_view(AdminModelView(InventoryGroup))
     adm.add_view(InventoryItemAdmin(InventoryItem))
     adm.add_view(InventoryLogAdmin(InventoryLog))
     pass

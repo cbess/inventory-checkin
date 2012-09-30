@@ -14,7 +14,10 @@ class BaseModel(peewee.Model):
 
 
 class Person(BaseModel):
-    name = peewee.CharField(max_length=80)
+    name = peewee.CharField(max_length=80, unique=True)
+
+    class Meta:
+        ordering = (('name', 'asc'),)
 
     def __unicode__(self):
         return self.name
@@ -42,7 +45,18 @@ class User(Person):
         return self.email
 
 
+class InventoryGroup(BaseModel):
+    name = peewee.CharField(max_length=200)
+
+    class Meta:
+        ordering = (('name', 'asc'),)
+
+    def __unicode__(self):
+        return self.name
+
+
 class InventoryItem(BaseModel):
+    group = peewee.ForeignKeyField(InventoryGroup)
     name = peewee.CharField(max_length=255)
     identifier = peewee.CharField(unique=True, null=True, max_length=500)
     comment = peewee.CharField(null=True, max_length=200)
@@ -76,7 +90,7 @@ class InventoryLog(BaseModel):
 
 
 def setup():
-    tables = (User, InventoryItem, InventoryLog, Person)
+    tables = (User, InventoryItem, InventoryLog, Person, InventoryGroup)
     for table in tables:
         try:
             table.create_table()

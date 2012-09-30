@@ -21,7 +21,7 @@
         {% set checked_out = item.status == 2 %}
         <tr id="item-{{ item.id }}">
             <td class="device-name">
-                {{ item.name }}
+                <strong>{{ item.name }}</strong>
             </td>
             <td class="person">
                 {% if can_edit %}
