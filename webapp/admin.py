@@ -50,6 +50,7 @@ class InventoryItemAdmin(AdminModelView):
             name=form.name.data,
             identifier=form.identifier.data,
             comment=form.comment.data,
+            status=form.status.data,
             date_added=now,
             date_updated=now
         )
@@ -101,8 +102,8 @@ def setup():
 
     adm = admin.Admin(app, settings.SITE_TITLE+' Admin', index_view=AdminIndexView())
 
-    adm.add_view(PersonAdmin(Person))
     adm.add_view(UserAdmin(User))
+    adm.add_view(PersonAdmin(Person))
     adm.add_view(InventoryItemAdmin(InventoryItem))
     adm.add_view(InventoryLogAdmin(InventoryLog))
     pass

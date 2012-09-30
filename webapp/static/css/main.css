@@ -52,3 +52,15 @@ label {
     right: 100px;
     top: 5px;
 }
+
+/* inventory styles */
+#inventory {
+    font-size: 18px;
+}
+#inventory #items {
+    margin: 0 auto;
+    width: 500px;
+}
+#inventory .person {
+    text-align: center;
+}

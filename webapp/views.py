@@ -42,7 +42,10 @@ def login_view():
     if form.validate_on_submit():
         user = form.get_user()
         login.login_user(user)
-        return redirect(url_for('index'))
+        if not user.is_admin:
+            return redirect(url_for('inventory_view'))
+        else:
+            return redirect(url_for('admin.index'))
     response = {
         'form' : form
     }
