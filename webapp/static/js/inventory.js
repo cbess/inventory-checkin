@@ -1,7 +1,9 @@
 $(function() {
+    // auto-check the checkbox when a person is selected
     $('#inventory .person-list').change(function() {
         var $checkbox = $(this).parents('tr').find('.checkbox');
         var checkbox = $checkbox.get(0);
+        // disables drpdown when a name is selected, so assuming 'true' is ok
         checkbox.checked = true;
 
         // simulate checkbox click
@@ -9,6 +11,7 @@ $(function() {
         checkbox.checked = true; // make sure its stays checked
     });
 
+    // send inventory change
     $('#inventory .checkbox').click(function() {
         var $self = $(this);
         var checked = this.checked;
