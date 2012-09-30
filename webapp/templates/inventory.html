@@ -27,7 +27,7 @@
                 {% for person in persons %}
                     {% set selected = '' %}
                     {% if item.status == 1 %}
-                        {# only if it is checked out do we grab the latest person #}
+                        {# only if it is checked in do we grab the latest person #}
                         {% if item.get_latest_person().id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
                     {% endif %}
                     <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
