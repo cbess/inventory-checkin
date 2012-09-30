@@ -1,4 +1,14 @@
 $(function() {
+    $('#inventory .person-list').change(function() {
+        var $checkbox = $(this).parents('tr').find('.checkbox');
+        var checkbox = $checkbox.get(0);
+        checkbox.checked = true;
+
+        // simulate checkbox click
+        $checkbox.click();
+        checkbox.checked = true; // make sure its stays checked
+    });
+
     $('#inventory .checkbox').click(function() {
         var $self = $(this);
         var checked = this.checked;

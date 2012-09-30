@@ -25,7 +25,7 @@
             </td>
             <td class="person">
                 {% if can_edit %}
-                <select class="person-list" {% if checked_out  %}DISABLED{% endif %}>
+                <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
                     <option value="0">Available</option>
                 {% for person in persons %}
                     {% set selected = '' %}
