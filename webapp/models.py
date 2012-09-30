@@ -23,6 +23,7 @@ class Person(BaseModel):
 class User(Person):
     email = peewee.CharField(max_length=120)
     password = peewee.CharField(max_length=250)
+    is_admin = peewee.BooleanField(default=False)
 
     # Flask-Login integration
     def is_authenticated(self):
@@ -47,7 +48,7 @@ class InventoryItem(BaseModel):
     comment = peewee.CharField(null=True, max_length=200)
     date_added = peewee.DateTimeField(null=True)
     date_updated = peewee.DateTimeField()
-    status = peewee.IntegerField(default=2, choices=INVENTORY_STATUS)
+    status = peewee.IntegerField(default=1, choices=INVENTORY_STATUS)
 
     def __unicode__(self):
         return self.name
@@ -73,7 +74,8 @@ def setup():
                 User.insert(
                     name='admin',
                     email='admin@example.com',
-                    password='admin'
+                    password='admin',
+                    is_admin=True
                 ).execute()
                 pass
         except sqlite3.OperationalError:

@@ -32,6 +32,7 @@
                     {% if user and user.is_authenticated() %}
                     <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
                     <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                    <li><a href="{{ url_for('inventory_view') }}">Inventory</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login_view') }}">Login</a></li>
                     {% endif %}

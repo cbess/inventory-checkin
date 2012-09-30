@@ -8,6 +8,7 @@ from flask.ext import admin, login
 from core import settings as core_settings
 from core.utils import debug, read_file
 from forms import LoginForm
+from models import Person, InventoryLog, InventoryItem
 # from template_filters import register_filters
 
 # register template filters
@@ -53,3 +54,13 @@ def login_view():
 def logout_view():
     login.logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/inventory/')
+def inventory_view():
+    response = {
+        'items' : InventoryItem.select(),
+        'persons' : Person.select()
+    }
+    add_default_response(response)
+    return render_template('inventory.html', **response)

@@ -1,0 +1,43 @@
+{% extends "base.tpl" %}
+
+{% block top_banner %}
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated() %}
+
+    <table id="items">
+    {% for item in items %}
+        <tr>
+            <td class="device-name">
+                {{ item.name }}
+            </td>
+            <td class="person">
+                <select class="person-list">
+                {% for person in persons %}
+                    <option value="{{ person.id }}">{{ person.name }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td class="action">
+                <div class="btn-group">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Action
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)">Check In</a></li>
+                    <li><a href="javascript:void(0)">Check Out</a></li>
+                  </ul>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        No inventory items.
+    {% endfor %}
+    </table>
+
+    {% else %}
+    <a href="{{ url_for('login_view') }}" class="btn btn-inverse">Login</a>
+    {% endif %}
+{% endblock %}

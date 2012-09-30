@@ -19,6 +19,8 @@ def format_status(model, prop_name):
 ## Base Models
 class AdminModelView(adminview.ModelView):
     def is_accessible(self):
+        if not login.current_user.is_admin:
+            return False
         return login.current_user.is_authenticated()
 
 
@@ -75,6 +77,8 @@ class AdminIndexView(admin.AdminIndexView):
         return self.render('admin/index.html', user=login.current_user)
 
     def is_accessible(self):
+        if not login.current_user.is_admin:
+            return False
         return login.current_user.is_authenticated()
 
 
