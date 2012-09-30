@@ -7,8 +7,8 @@
 # http://flask.pocoo.org/snippets/24/
 # http://docs.cherrypy.org/dev/refman/wsgiserver/init.html
 from core import cherrypy_wsgiserver
+from core import settings as core_settings
 from server import app
-import settings as core_settings
 
 # setup cherrypy server
 dispatcher = cherrypy_wsgiserver.WSGIPathInfoDispatcher({ '/' : app })
@@ -24,6 +24,7 @@ def run():
     try:
         server.start()
     except KeyboardInterrupt:
+        print 'stopping cherrypy...'
         server.stop()
 
       
