@@ -8,7 +8,7 @@ from flask.ext import admin, login
 from core import settings as core_settings
 from core.utils import debug, read_file
 from forms import LoginForm
-from models import Person, InventoryLog, InventoryItem
+from models import Person, InventoryLog, InventoryItem, InventoryGroup
 from datetime import datetime
 # from template_filters import register_filters
 
@@ -62,9 +62,15 @@ def logout_view():
 
 @app.route('/inventory/')
 def inventory_view():
+    items = InventoryItem.select()
+    group_id = request.args.get('group', '')
+    if group_id:
+        items  = items.filter(group=group_id)
     response = {
-        'items' : InventoryItem.select(),
+        'items' : items,
         'persons' : Person.select(),
+        'groups' : InventoryGroup.select(),
+        'group_id' : int(group_id) if group_id else '',
         'title' : 'Inventory'
     }
     add_default_response(response)

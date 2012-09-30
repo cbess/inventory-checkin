@@ -1,4 +1,8 @@
 $(function() {
+    $('#group-list').change(function() {
+        this.form.submit();
+    });
+
     // auto-check the checkbox when a person is selected
     $('#inventory .person-list').change(function() {
         var $checkbox = $(this).parents('tr').find('.checkbox');

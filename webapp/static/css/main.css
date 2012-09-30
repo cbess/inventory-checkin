@@ -6,6 +6,7 @@
 }
 html body {
     margin: 8px;
+    padding: 40px;
     font-size: 15px;
     color: black;
 }
@@ -40,7 +41,7 @@ label {
 }
 #top-banner #banner-text {
     position: relative;
-    top: 10px;
+    top: 12px;
     left: 20px;
     color: silver;
     font-size: 20px;
@@ -50,7 +51,7 @@ label {
     float: right;
     position: relative;
     right: 100px;
-    top: 5px;
+    top: 3px;
 }
 
 /* inventory styles */
@@ -73,4 +74,10 @@ label {
     position: absolute;
     z-index: 7;
     opacity: 0.9;
+}
+#group-form {
+    margin: 0 auto;
+    width: 300px;
+    position: relative;
+    top: -13px;
 }

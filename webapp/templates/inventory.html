@@ -7,6 +7,14 @@
 
 {% block top_banner %}
 {# remove the menu #}
+<form action="{{ url_for('inventory_view') }}" method="GET" id="group-form">
+    <select id="group-list" name="group">
+        <option value="">All</option>
+        {% for group in groups %}
+        <option value="{{ group.id }}" {% if group.id == group_id %}SELECTED{% endif %}>{{ group.name }}</option>
+        {% endfor %}
+    </select>
+</form>
 {% endblock %}
 
 {% block content %}
@@ -19,6 +27,8 @@
     <table id="items">
     {% for item in items %}
         {% set checked_out = item.status == 2 %}
+        {% set latest_person = item.get_latest_person() %}
+
         <tr id="item-{{ item.id }}">
             <td class="device-name">
                 <strong>{{ item.name }}</strong>
@@ -31,12 +41,12 @@
                     {% set selected = '' %}
                     {% if checked_out %}
                         {# only if it is checked out do we grab the latest person #}
-                        {% if item.get_latest_person().id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
+                        {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
                     {% endif %}
                     <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
                 {% endfor %}
                 {% elif checked_out %}
-                    {{ item.get_latest_person().name }}
+                    {{ latest_person.name }}
                 {% else %}
                     Available
                 {% endif %}

@@ -64,6 +64,9 @@ class InventoryItem(BaseModel):
     date_updated = peewee.DateTimeField()
     status = peewee.IntegerField(default=1, choices=INVENTORY_STATUS)
 
+    class Meta:
+        ordering = (('name', 'asc'),)
+
     def __unicode__(self):
         return self.name
 
