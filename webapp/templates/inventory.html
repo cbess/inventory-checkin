@@ -1,6 +1,7 @@
 {% extends "base.tpl" %}
 
 {% block header %}
+<script src="/static/js/jquery.string.min.js"></script>
 <script src="/static/js/inventory.js"></script>
 {% endblock %}
 
@@ -10,41 +11,47 @@
 
 {% block content %}
 <div id="inventory">
-    {% if user.is_authenticated() %}
+    {% set can_edit = user.is_authenticated() %}
     <div class="alert alert-info">
         Updated!
     </div>
 
     <table id="items">
     {% for item in items %}
+        {% set checked_out = item.status == 2 %}
         <tr id="item-{{ item.id }}">
             <td class="device-name">
                 {{ item.name }}
             </td>
             <td class="person">
-                <select class="person-list" {% if item.status == 2  %}DISABLED{% endif %}>
+                {% if can_edit %}
+                <select class="person-list" {% if checked_out  %}DISABLED{% endif %}>
                     <option value="0">Available</option>
                 {% for person in persons %}
                     {% set selected = '' %}
-                    {% if item.status == 2 %}
+                    {% if checked_out %}
                         {# only if it is checked out do we grab the latest person #}
                         {% if item.get_latest_person().id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
                     {% endif %}
                     <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
                 {% endfor %}
+                {% elif checked_out %}
+                    {{ item.get_latest_person().name }}
+                {% else %}
+                    Available
+                {% endif %}
                 </select>
             </td>
             <td class="action">
-                <input type="checkbox" class="checkbox" value="{{ item.id }}" {% if item.status == 2 %}CHECKED{% endif %} />
+                <input type="checkbox" class="checkbox" value="{{ item.id }}"
+                    {% if not can_edit %}DISABLED{% endif %}
+                    {% if checked_out %}CHECKED{% endif %}
+                    />
             </td>
         </tr>
     {% else %}
         No inventory items.
     {% endfor %}
     </table>
-
-    {% else %}
-    <a href="{{ url_for('login_view') }}" class="btn btn-inverse">Login</a>
-    {% endif %}
 </div>
 {% endblock %}

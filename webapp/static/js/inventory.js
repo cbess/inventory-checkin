@@ -1,21 +1,25 @@
 $(function() {
     $('#inventory .checkbox').click(function() {
-        // get the item id
         var $self = $(this);
-        var itemid = $self.val();
-        var $drpdwn = $self.parents('tr').find('.person-list');
-        // get the person id
+        var checked = this.checked;
+        var $row = $self.parents('tr');
+        var $drpdwn = $row.find('.person-list');
+        var itemName = $row.find('.device-name').text();
+        var personName = $drpdwn.find('option:selected').text();
         var personid = $drpdwn.val();
+        var itemid = $self.val();
 
+        // if no person selected
         if (!parseInt(personid)) {
             this.checked = false;
             alert('Pick a person');
             return;
         }
 
-        $drpdwn.attr('disabled', this.checked);
+        $drpdwn.attr('disabled', checked);
 
-        if (!this.checked) {
+        if (!checked) {
+            // select empty option
             $drpdwn.val(0);
         }
 
@@ -26,10 +30,24 @@ $(function() {
             data : {
                 'personid' : personid,
                 'itemid' : itemid,
-                'status' : (this.checked ? 2 : 1)
+                'status' : (checked ? 2 : 1)
             },
             success: function(req, status, xhr) {
                 //var data = $.parseJSON(req);
+                var $alert =  $('.alert').alert();
+                var format = null;
+                if (checked) {
+                    format = '%s checked out %s';
+                } else {
+                    format = '%s checked in %s';
+                }
+
+                $alert.html($.sprintf(format, personName, itemName)).fadeIn();
+
+                // hide it
+                setTimeout(function() {
+                    $alert.fadeOut();
+                }, 3000);
             },
             error: function(req, status) {
                 $drpdwn.attr('disabled', false);
