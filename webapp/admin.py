@@ -25,7 +25,7 @@ class UserAdmin(AdminModelView):
 
 
 class InventoryItemAdmin(AdminModelView):
-    excluded_list_columns = ('comment', 'date_added')
+    list_columns = ('name', 'identifier', 'status', 'date_updated')
     excluded_form_columns = ('date_added', 'date_updated')
     searchable_columns = ('name', 'identifier')
     list_formatters = {'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT)}
@@ -48,9 +48,10 @@ class InventoryItemAdmin(AdminModelView):
 
 
 class InventoryLogAdmin(AdminModelView):
-    can_create = False
+    can_create = settings.DEBUG
     rename_columns = {'date_added' : 'Date'}
     disallowed_actions = ('delete',)
+    list_formatters = {'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT)}
 
 
 # Create customized index view class
