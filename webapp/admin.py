@@ -1,11 +1,19 @@
 from flask.ext import admin, login
 from flask.ext.admin.contrib import peeweemodel as adminview
-from models import User, InventoryItem, InventoryLog, Person
+from models import User, Person, \
+    InventoryItem, InventoryLog, INVENTORY_STATUS
 from core import app
 from core import settings
 from core import utils
 from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
 from datetime import datetime
+
+
+def format_status(model, prop_name):
+    # format the status field value to a string
+    if prop_name == 'status':
+        return INVENTORY_STATUS[model.status - 1][1]
+    return None
 
 
 ## Base Models
@@ -28,7 +36,10 @@ class InventoryItemAdmin(AdminModelView):
     list_columns = ('name', 'identifier', 'status', 'date_updated')
     excluded_form_columns = ('date_added', 'date_updated')
     searchable_columns = ('name', 'identifier')
-    list_formatters = {'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT)}
+    list_formatters = {
+        'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT),
+        'status' : format_status
+    }
 
     def create_model(self, form):
         # overriden to update the date values of the model
@@ -51,7 +62,10 @@ class InventoryLogAdmin(AdminModelView):
     can_create = settings.DEBUG
     rename_columns = {'date_added' : 'Date'}
     disallowed_actions = ('delete',)
-    list_formatters = {'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT)}
+    list_formatters = {
+        'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT),
+        'status' : format_status
+    }
 
 
 # Create customized index view class
