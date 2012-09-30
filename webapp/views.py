@@ -64,7 +64,8 @@ def logout_view():
 def inventory_view():
     response = {
         'items' : InventoryItem.select(),
-        'persons' : Person.select()
+        'persons' : Person.select(),
+        'title' : 'Inventory'
     }
     add_default_response(response)
     return render_template('inventory.html', **response)

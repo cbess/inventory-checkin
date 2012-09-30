@@ -64,7 +64,7 @@ class InventoryItemAdmin(AdminModelView):
 class InventoryLogAdmin(AdminModelView):
     can_create = settings.DEBUG
     rename_columns = {'date_added' : 'Date'}
-    disallowed_actions = ('delete',)
+    disallowed_actions = ('delete',) if not settings.DEBUG else []
     list_formatters = {
         'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_status

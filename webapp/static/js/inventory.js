@@ -26,15 +26,14 @@ $(function() {
             data : {
                 'personid' : personid,
                 'itemid' : itemid,
-                'status' : (this.checked ? 1 : 2)
+                'status' : (this.checked ? 2 : 1)
             },
             success: function(req, status, xhr) {
                 //var data = $.parseJSON(req);
             },
             error: function(req, status) {
                 $drpdwn.attr('disabled', false);
-                if (req.status == 500) {
-                }
+                //if (req.status == 500) { }
             }
         });
     });

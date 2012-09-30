@@ -22,12 +22,12 @@
                 {{ item.name }}
             </td>
             <td class="person">
-                <select class="person-list" {% if item.status == 1 %}DISABLED{% endif %}>
+                <select class="person-list" {% if item.status == 2  %}DISABLED{% endif %}>
                     <option value="0">Available</option>
                 {% for person in persons %}
                     {% set selected = '' %}
-                    {% if item.status == 1 %}
-                        {# only if it is checked in do we grab the latest person #}
+                    {% if item.status == 2 %}
+                        {# only if it is checked out do we grab the latest person #}
                         {% if item.get_latest_person().id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
                     {% endif %}
                     <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
@@ -35,7 +35,7 @@
                 </select>
             </td>
             <td class="action">
-                <input type="checkbox" class="checkbox" value="{{ item.id }}" {% if item.status == 1 %}CHECKED{% endif %} />
+                <input type="checkbox" class="checkbox" value="{{ item.id }}" {% if item.status == 2 %}CHECKED{% endif %} />
             </td>
         </tr>
     {% else %}
