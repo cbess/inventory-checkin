@@ -42,17 +42,24 @@ class InventoryItem(BaseModel):
     identifier = peewee.CharField(unique=True, null=True, max_length=500)
     comment = peewee.CharField(null=True, max_length=200)
     date_added = peewee.DateTimeField(null=True)
+    date_updated = peewee.DateTimeField()
+
+    def __unicode__(self):
+        return self.name
 
 
 class InventoryLog(BaseModel):
-    user = peewee.ForeignKeyField(User, related_name='logs')
+    person = peewee.ForeignKeyField(Person, related_name='logs')
     item = peewee.ForeignKeyField(InventoryItem, related_name='logs')
     status = peewee.CharField(choices=[(1, 'Checkin'), (2, 'Checkout')])
-    date_mod = peewee.DateTimeField()
+    date_added = peewee.DateTimeField()
+
+    def __unicode__(self):
+        return u'%s - %s' % (status, date_added)
 
 
 def setup():
-    tables = (User, InventoryItem, InventoryLog)
+    tables = (User, InventoryItem, InventoryLog, Person)
     for table in tables:
         try:
             table.create_table()

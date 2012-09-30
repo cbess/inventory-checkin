@@ -17,3 +17,8 @@ def get_version_info(module):
     elif module == 'flask':
         return flask.__version__
     return '0.0'
+
+
+LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M %p'
+DEFAULT_DATE_FORMAT = '%m/%d/%Y %I:%M %p'
+SHORT_DATE_FORMAT = '%m/%d/%Y %H:%M'

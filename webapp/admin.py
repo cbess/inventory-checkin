@@ -1,19 +1,56 @@
 from flask.ext import admin, login
 from flask.ext.admin.contrib import peeweemodel as adminview
-from models import User
+from models import User, InventoryItem, InventoryLog, Person
 from core import app
 from core import settings
 from core import utils
+from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
+from datetime import datetime
 
 
+## Base Models
 class AdminModelView(adminview.ModelView):
     def is_accessible(self):
         return login.current_user.is_authenticated()
 
 
+## Model Admins
+class PersonAdmin(AdminModelView):
+    searchable_columns = ('name',)
+
+
 class UserAdmin(AdminModelView):
     list_columns = ('name', 'email')
-    searchable_columns = ('email', User.email)
+    searchable_columns = ('email',)
+
+
+class InventoryItemAdmin(AdminModelView):
+    excluded_list_columns = ('comment', 'date_added')
+    excluded_form_columns = ('date_added', 'date_updated')
+    searchable_columns = ('name', 'identifier')
+    list_formatters = {'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT)}
+
+    def create_model(self, form):
+        # overriden to update the date values of the model
+        now = datetime.now()
+        InventoryItem.create(
+            name=form.name.data,
+            identifier=form.identifier.data,
+            comment=form.comment.data,
+            date_added=now,
+            date_updated=now
+        )
+        return True
+
+    def update_model(self, form, model):
+        model.date_updated = datetime.now()
+        return super(AdminModelView, self).update_model(form, model)
+
+
+class InventoryLogAdmin(AdminModelView):
+    can_create = False
+    rename_columns = {'date_added' : 'Date'}
+    disallowed_actions = ('delete',)
 
 
 # Create customized index view class
@@ -45,5 +82,8 @@ def setup():
 
     adm = admin.Admin(app, settings.SITE_TITLE+' Admin', index_view=AdminIndexView())
 
+    adm.add_view(PersonAdmin(Person))
     adm.add_view(UserAdmin(User))
+    adm.add_view(InventoryItemAdmin(InventoryItem))
+    adm.add_view(InventoryLogAdmin(InventoryLog))
     pass
