@@ -6,7 +6,7 @@
 }
 html body {
     margin: 8px;
-    padding: 40px;
+    padding: 50px;
     font-size: 15px;
     color: black;
 }
@@ -35,13 +35,13 @@ label {
 
 /*top banner styles*/
 #top-banner {
-    height: 40px;
+    height: 50px;
     margin: -8px -8px 7px;
     box-shadow: 5px 2px 5px #777;
 }
 #top-banner #banner-text {
     position: relative;
-    top: 12px;
+    top: 15px;
     left: 20px;
     color: silver;
     font-size: 20px;
@@ -79,5 +79,5 @@ label {
     margin: 0 auto;
     width: 300px;
     position: relative;
-    top: -13px;
+    top: -9px;
 }
