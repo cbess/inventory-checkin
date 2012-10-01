@@ -88,6 +88,10 @@ label {
     z-index: 7;
     opacity: 0.9;
 }
+#inventory .label {
+    font-size: 20px;
+    line-height: inherit;
+}
 #group-form {
     margin: 0 auto;
     width: 300px;
