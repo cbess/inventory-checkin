@@ -24,44 +24,46 @@
         Updated!
     </div>
 
-    <table id="items">
-    {% for item in items %}
-        {% set checked_out = item.status == 2 %}
-        {% set latest_person = item.get_latest_person() %}
+    <table id="items" class="table table-striped">
+        <tbody>
+        {% for item in items %}
+            {% set checked_out = item.status == 2 %}
+            {% set latest_person = item.get_latest_person() %}
 
-        <tr id="item-{{ item.id }}">
-            <td class="device-name">
-                <strong>{{ item.name }}</strong>
-            </td>
-            <td class="person">
-                {% if can_edit %}
-                <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
-                    <option value="0">Available</option>
-                {% for person in persons %}
-                    {% set selected = '' %}
-                    {% if checked_out %}
-                        {# only if it is checked out do we grab the latest person #}
-                        {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
+            <tr id="item-{{ item.id }}">
+                <td class="device-name">
+                    <strong>{{ item.name }}</strong>
+                </td>
+                <td class="person">
+                    {% if can_edit %}
+                    <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
+                        <option value="0">Available</option>
+                    {% for person in persons %}
+                        {% set selected = '' %}
+                        {% if checked_out %}
+                            {# only if it is checked out do we grab the latest person #}
+                            {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
+                        {% endif %}
+                        <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
+                    {% endfor %}
+                    {% elif checked_out %}
+                        {{ latest_person.name }}
+                    {% else %}
+                        Available
                     {% endif %}
-                    <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
-                {% endfor %}
-                {% elif checked_out %}
-                    {{ latest_person.name }}
-                {% else %}
-                    Available
-                {% endif %}
-                </select>
-            </td>
-            <td class="action">
-                <input type="checkbox" class="checkbox" value="{{ item.id }}"
-                    {% if not can_edit %}DISABLED{% endif %}
-                    {% if checked_out %}CHECKED{% endif %}
-                    />
-            </td>
-        </tr>
-    {% else %}
-        No {{ INVENTORY_ITEM_NAME_PLURAL.lower() }}.
-    {% endfor %}
+                    </select>
+                </td>
+                <td class="action">
+                    <input type="checkbox" class="checkbox" value="{{ item.id }}"
+                        {% if not can_edit %}DISABLED{% endif %}
+                        {% if checked_out %}CHECKED{% endif %}
+                        />
+                </td>
+            </tr>
+        {% else %}
+            No {{ INVENTORY_ITEM_NAME_PLURAL.lower() }}.
+        {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endblock %}

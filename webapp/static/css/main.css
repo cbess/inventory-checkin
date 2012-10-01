@@ -60,14 +60,26 @@ label {
 }
 #inventory #items {
     margin: 0 auto;
-    width: 500px;
+    width: 700px;
+    font-size: 30px;
+}
+#inventory table td {
+    line-height: 30px;
+    border: none;
+}
+.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
+    background-color: #f2f2f2;
 }
 #inventory .person {
     text-align: center;
 }
+#inventory select {
+    height: 40px;
+}
 #inventory .checkbox {
     width: 30px;
     height: 30px;
+    margin-left: 10px;
 }
 .alert {
     display: none;

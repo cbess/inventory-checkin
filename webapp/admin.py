@@ -12,10 +12,15 @@ from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
 from datetime import datetime
 
 
-def format_status(model, prop_name):
+def format_prop(model, prop_name):
     # format the status field value to a string
     if prop_name == 'status':
         return INVENTORY_STATUS[model.status - 1][1]
+    elif prop_name == 'group':
+        try:
+            return model.group.name
+        except InventoryGroup.DoesNotExist:
+            return 'None'
     return None
 
 
@@ -38,12 +43,13 @@ class UserAdmin(AdminModelView):
 
 
 class InventoryItemAdmin(AdminModelView):
-    list_columns = ('name', 'identifier', 'status', 'date_updated')
+    list_columns = ('name', 'identifier', 'status', 'group', 'date_updated')
     excluded_form_columns = ('date_added', 'date_updated')
     searchable_columns = ('name', 'identifier')
     list_formatters = {
         'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT),
-        'status' : format_status
+        'status' : format_prop,
+        'group' : format_prop
     }
 
     def create_model(self, form):
@@ -81,7 +87,7 @@ class InventoryLogAdmin(AdminModelView):
     disallowed_actions = ('delete',) if not settings.DEBUG else []
     list_formatters = {
         'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT),
-        'status' : format_status
+        'status' : format_prop
     }
 
 
