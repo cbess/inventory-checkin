@@ -23,6 +23,8 @@ def add_default_response(response):
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
     response["user"] = login.current_user
+    response["INVENTORY_ITEM_NAME"] = core_settings.INVENTORY_ITEM_NAME
+    response["INVENTORY_ITEM_NAME_PLURAL"] = core_settings.INVENTORY_ITEM_NAME_PLURAL
     pass
     
 
@@ -71,7 +73,7 @@ def inventory_view():
         'persons' : Person.select(),
         'groups' : InventoryGroup.select(),
         'group_id' : int(group_id) if group_id else '',
-        'title' : 'Inventory'
+        'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL
     }
     add_default_response(response)
     return render_template('inventory.html', **response)

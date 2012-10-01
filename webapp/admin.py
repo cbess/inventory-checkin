@@ -89,7 +89,11 @@ class InventoryLogAdmin(AdminModelView):
 class AdminIndexView(admin.AdminIndexView):
     @admin.expose('/')
     def index(self):
-        return self.render('admin/index.html', user=login.current_user)
+        html = self.render('admin/index.html',
+            user=login.current_user,
+            INVENTORY_ITEM_NAME_PLURAL=settings.INVENTORY_ITEM_NAME_PLURAL
+        )
+        return html
 
     def is_accessible(self):
         if not login.current_user.is_admin:

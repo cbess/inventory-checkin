@@ -61,6 +61,12 @@ SITE_BANNER_COLOR = 'black'
 # default: webapp.db
 DATABASE_NAME = 'webapp.db'
 
+# The name of the inventory items
+# type: string
+# default: Inventory
+INVENTORY_ITEM_NAME = 'Inventory'
+INVENTORY_ITEM_NAME_PLURAL = 'Inventory'
+
 
 # Customzie the settings per installation
 try:

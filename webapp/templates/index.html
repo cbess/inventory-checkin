@@ -4,10 +4,16 @@
 {% endblock %}
 
 {% block content %}
-    {% if user and user.is_authenticated() %}
-        Hello {{ user.name }}!
-    {% else %}
-        Welcome!
-        <a href="{{ url_for('login_view') }}" class="btn btn-inverse">Login</a>
+    {% set is_auth = user.is_authenticated() %}
+
+    {% if not is_auth %}
+        <a href="{{ url_for('login_view') }}" class="btn">Login</a>
     {% endif %}
+    <a href="{{ url_for('inventory_view') }}" class="btn btn-info">{{ INVENTORY_ITEM_NAME_PLURAL }}</a>
+    {% if is_auth %}
+    <p>
+        Hello {{ user.name }}!
+    </p>
+    {% endif %}
+
 {% endblock %}

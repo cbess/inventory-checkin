@@ -18,7 +18,7 @@
     <body>
         <div id='top-banner' class="bg-gradient-{{ site_banner_color }} navbar navbar-fixed-top">
             <!-- Start custom banner HTML here -->
-            <span id='banner-text'>{{ site_banner_text }}</span>
+            <span id='banner-text'><a href="/">{{ site_banner_text }}</a></span>
             <!-- End custom banner HTML here -->
 
             {% block top_banner %}
@@ -31,11 +31,11 @@
                   <ul class="dropdown-menu">
                     {% if user and user.is_authenticated() %}
                     <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
-                    <li><a href="{{ url_for('inventory_view') }}">Inventory</a></li>
+                    <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
                     <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login_view') }}">Login</a></li>
-                    <li><a href="{{ url_for('inventory_view') }}">Inventory</a></li>
+                    <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
                     {% endif %}
                   </ul>
                 </div>

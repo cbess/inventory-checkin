@@ -20,10 +20,10 @@ a {
     text-decoration: none;
 }
 a:link {
-    color: blue;
+    color: #5372ce;
 }
-a:visited {
-    color: gray;
+a:link.btn-info {
+    color: white;
 }
 a.clear-btn {
     position: relative;
@@ -51,7 +51,7 @@ label {
     float: right;
     position: relative;
     right: 100px;
-    top: 3px;
+    top: 9px;
 }
 
 /* inventory styles */

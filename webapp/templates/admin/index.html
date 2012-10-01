@@ -1,5 +1,8 @@
 {% extends 'admin/master.html' %}
 {% block body %}
-    Hello {{ user.name }} (admin)!
     <a href="{{ url_for('logout_view') }}" class="btn btn-inverse">Logout</a>
+    <a href="{{ url_for('inventory_view') }}" class="btn btn-info">{{ INVENTORY_ITEM_NAME_PLURAL }}</a>
+    <p>
+        Hello {{ user.name }} (admin)!
+    </p>
 {% endblock %}
