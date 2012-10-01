@@ -4,3 +4,4 @@ cherrypy
 flask-admin
 flask-peewee
 # flask-sqlalchemy
+flask-login
