@@ -9,8 +9,8 @@
 VENV_NAME=inventorycheckin_env
 
 # echo "Setting up virtualenv and pip"
-# sudo easy_install pip
-# sudo pip install virtualenv
+sudo easy_install pip
+sudo pip install virtualenv
 
 # adjust permission (allow it to be executed)
 chmod +x ../main.py
