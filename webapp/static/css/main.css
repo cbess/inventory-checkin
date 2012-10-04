@@ -60,12 +60,13 @@ label {
 }
 #inventory #items {
     margin: 0 auto;
-    width: 700px;
+    width: 900px;
     font-size: 30px;
 }
 #inventory table td {
     border: none;
     vertical-align: inherit;
+    line-height: 30px;
 }
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
     background-color: #f2f2f2;
