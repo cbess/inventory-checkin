@@ -6,7 +6,7 @@
 }
 html body {
     margin: 8px;
-    padding: 50px;
+    padding: 50px 20px 10px 20px;
     font-size: 15px;
     color: black;
 }
@@ -60,7 +60,6 @@ label {
 }
 #inventory #items {
     margin: 0 auto;
-    width: 900px;
     font-size: 30px;
 }
 #inventory table td {
