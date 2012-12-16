@@ -18,6 +18,7 @@ $(function() {
     // send inventory change
     $('#inventory .checkbox').click(function() {
         var $self = $(this);
+        var $inventoryMeta = $('#inventory-meta');
         var checked = this.checked;
         var $row = $self.parents('tr');
         var $drpdwn = $row.find('.person-list');
@@ -25,7 +26,7 @@ $(function() {
         var personName = $drpdwn.find('option:selected').text();
         var personid = $drpdwn.val();
         var itemid = $self.val();
-
+        
         // if no person selected
         if (!parseInt(personid)) {
             this.checked = false;
@@ -35,7 +36,14 @@ $(function() {
 
         $drpdwn.attr('disabled', checked);
 
+        // if about to be checked in
         if (!checked) {
+            if ($inventoryMeta.data('confirmation-checkin') == 'yes' &&
+                confirm('Check in: Are you sure?') === false) {
+                    this.checked = true;
+                    return;
+                }
+                
             // select empty option
             $drpdwn.val(0);
         }
@@ -47,7 +55,7 @@ $(function() {
             data : {
                 'personid' : personid,
                 'itemid' : itemid,
-                'status' : (checked ? 2 : 1)
+                'status' : (checked ? 2 /* check out */ : 1 /* check in */)
             },
             success: function(req, status, xhr) {
                 //var data = $.parseJSON(req);

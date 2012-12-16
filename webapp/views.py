@@ -73,7 +73,9 @@ def inventory_view():
         'persons' : Person.select(),
         'groups' : InventoryGroup.select(),
         'group_id' : int(group_id) if group_id else '',
-        'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL
+        'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL,
+        'confirmation' : core_settings.USER_CONFIRMATION,
+        'inventory_auto_refresh' : core_settings.INVENTORY_AUTO_REFRESH
     }
     add_default_response(response)
     return render_template('inventory.html', **response)

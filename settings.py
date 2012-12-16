@@ -67,6 +67,16 @@ DATABASE_NAME = 'webapp.db'
 INVENTORY_ITEM_NAME = 'Inventory'
 INVENTORY_ITEM_NAME_PLURAL = 'Inventory'
 
+# A value indicating rather the user must confirm an action.
+# default: { 'checkin' : False }
+USER_CONFIRMATION = {
+    'checkin' : False
+}
+
+# The number of seconds to elapse before the inventory list auto-refreshes. This 
+# is for unauthenticated/readonly inventory users.
+# default: 30 (secs)
+INVENTORY_AUTO_REFRESH = 30
 
 # Customzie the settings per installation
 try:

@@ -60,12 +60,13 @@ label {
 }
 #inventory #items {
     margin: 0 auto;
+    width: 900px;
     font-size: 30px;
 }
 #inventory table td {
     border: none;
     vertical-align: inherit;
-    line-height: 30px;
+    line-height: 60px;
 }
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
     background-color: #f2f2f2;
@@ -78,8 +79,8 @@ label {
     margin: 0;
 }
 #inventory .checkbox {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin: 0 0 0 10px;
 }
 .alert {
