@@ -13,7 +13,7 @@ Instructions:
 1. Extract/place the source code in the desired (install) directory. This will be where the app lives.
 1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download packages.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
-	- Copy `example.local_settings.py` to `local_settings.py`.
+	- Copy `settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
 1. Run `source inventorycheckin_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
