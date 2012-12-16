@@ -74,9 +74,10 @@ USER_CONFIRMATION = {
 }
 
 # The number of seconds to elapse before the inventory list auto-refreshes. This 
-# is for unauthenticated/readonly inventory users.
+# is for readonly inventory users.
 # default: 30 (secs)
 INVENTORY_AUTO_REFRESH = 30
+
 
 # Customzie the settings per installation
 try:
