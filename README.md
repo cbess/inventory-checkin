@@ -5,6 +5,8 @@ Inventory check-in/out manager, for a tablet kiosk.
 
 Review the `settings.py` file for configuration details.
 
+Note: This is **beta** software.
+
 ## Basic Setup
 
 Instructions:
@@ -26,3 +28,14 @@ Instructions:
     password: admin
 
 The defaults can be changed in the admin: `http://localhost:7777/admin`.
+
+#### Deployment Notes
+
+Under some circumstances, due to a multi-threading bug, the server may terminate unexpectedly. As a work around, you can use [supervisord](http://supervisord.org/index.html).
+
+Sample `supervisord.conf` section:
+
+	[program:inventorymate]
+	command = /path/to/inventorymate/inventorycheckin_env/bin/python main.py --runserver
+	directory = /path/to/inventorymate
+	stdout_logfile = /path/to/inventorymate.log
