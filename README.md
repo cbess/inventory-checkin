@@ -33,7 +33,7 @@ The defaults can be changed in the admin: `http://localhost:7777/admin`.
 
 ### Usage Scenario
 
-This web app will allow you to setup users which are either, admin or only authenticated. However, the system works with three user types: admin, authenticated, and anonymous.
+This web app will allow you to setup users which are either, admin or only authenticated. However, the system works with three user types: `admin`, `authenticated`, and `anonymous`.
 
 Typical scenario (setup):
 
