@@ -9,6 +9,8 @@ Note: This is **beta** software.
 
 ## Basic Setup
 
+**Requires Python 2.6 or later**
+
 Instructions:
 
 1. Download [Inventory Checkin](https://github.com/cbess/inventory-checkin) source from [GitHub](https://github.com/cbess/inventory-checkin).
