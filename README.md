@@ -31,6 +31,26 @@ Instructions:
 
 The defaults can be changed in the admin: `http://localhost:7777/admin`.
 
+### Usage Scenario
+
+This web app will allow you to setup users which are either, admin or only authenticated. However, the system works with three user types: admin, authenticated, and anonymous.
+
+Typical scenario (setup):
+
+CO/I = Check Out and In
+
+1. Login as the admin.
+1. Update the admin user credentials (if needed).
+1. Import/create persons that can co/i inventory items.
+1. Add groups and inventory items to the groups.
+1. Create an authenticated (non-admin) user for the kiosks/tablets. This will allow the user to co/i inventory items, but no access is given to the admin panel.
+1. Login using the kiosk credentials on the desired device.
+    - Go to `/inventory`.
+    - All other users can then co/i items from that device.
+1. Anonymous users can now view the co/i status of the items in the inventory.
+    - Go to `/inventory`.
+    - It is a readonly view of the inventory, that auto-refreshes.
+
 #### Deployment Notes
 
 Under some circumstances, due to a multi-threading bug, the server may terminate unexpectedly. As a work around, you can use [supervisord](http://supervisord.org/index.html).
