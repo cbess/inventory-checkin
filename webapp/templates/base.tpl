@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class='{{ html_css_class }}'>
+<html class='{{ html_css_class }}{% if is_mobile %} mobile{% endif %}'>
 
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>

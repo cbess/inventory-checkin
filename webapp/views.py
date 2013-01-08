@@ -25,6 +25,8 @@ def add_default_response(response):
     response["user"] = login.current_user
     response["INVENTORY_ITEM_NAME"] = core_settings.INVENTORY_ITEM_NAME
     response["INVENTORY_ITEM_NAME_PLURAL"] = core_settings.INVENTORY_ITEM_NAME_PLURAL
+    # simple mobile (iphone/ipad) check
+    response['is_mobile'] = (request.headers.get('User-Agent', '').find('Mobile') >= 0)
     pass
     
 

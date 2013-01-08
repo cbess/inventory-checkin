@@ -66,6 +66,9 @@ label {
 #inventory table td {
     border: none;
     vertical-align: inherit;
+    line-height: 30px;
+}
+.mobile #inventory table td {
     line-height: 60px;
 }
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
@@ -82,6 +85,12 @@ label {
     width: 40px;
     height: 40px;
     margin: 0 0 0 10px;
+}
+#inventory .action {
+    display: none;
+}
+.mobile #inventory .action {
+    display: block;
 }
 .alert {
     display: none;
