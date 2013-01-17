@@ -44,7 +44,7 @@ def get_options():
     add_argument("--test", dest="run_tests",
                     action='store_true',
                       help="Run tests to ensure everything works correctly.")
-    add_argument('--runserver', dest='run_server',
+    add_argument('-r', '--runserver', dest='run_server',
                  action='store_true',
                     help='Run the web server.')
     add_argument('-v', '--version', dest='show_version',

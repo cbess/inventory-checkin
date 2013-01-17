@@ -1,4 +1,13 @@
 $(function() {
+    toastr.options = {
+        // docs: http://codeseven.github.com/toastr/
+	    debug: false,
+	    positionClass: 'toast-top-left',
+        fadeIn: 500,
+        fadeOut: 1000,
+        onclick: null
+	};
+    
     $('#group-list').change(function() {
         this.form.submit();
     });
@@ -22,7 +31,7 @@ $(function() {
         var checked = this.checked;
         var $row = $self.parents('tr');
         var $drpdwn = $row.find('.person-list');
-        var itemName = $row.find('.device-name').text();
+        var itemName = $row.find('.device-name').data('name');
         var personName = $drpdwn.find('option:selected').text();
         var personid = $drpdwn.val();
         var itemid = $self.val();
@@ -38,8 +47,9 @@ $(function() {
 
         // if about to be checked in
         if (!checked) {
+            var confirmMsg = $.sprintf('Check in %s\nAre you sure?', itemName);
             if ($inventoryMeta.data('confirmation-checkin') == 'yes' &&
-                confirm('Check in: Are you sure?') === false) {
+                confirm(confirmMsg) === false) {
                     this.checked = true;
                     return;
                 }
@@ -59,23 +69,30 @@ $(function() {
             },
             success: function(req, status, xhr) {
                 //var data = $.parseJSON(req);
-                var $alert =  $('.alert').alert();
-                var format = null;
-                if (checked) {
-                    format = '%s checked out %s';
-                } else {
-                    format = '%s checked in %s';
-                }
 
-                $alert.html($.sprintf('<strong>info</strong> '+format, personName, itemName)).fadeIn();
-
-                // hide it
-                setTimeout(function() {
-                    $alert.fadeOut();
-                }, 3000);
+                // show the notification
+                toastr.options.fadeOut = 1000;
+                toastr.options.timeOut = 3000;
+                // change visual/func type based on action
+                toastr[checked ? 'info' : 'success']($.sprintf(
+                    '%s<br />Checked <b><u>%s</u> %s</b>', 
+                    personName, 
+                    checked ? 'OUT' : 'IN', 
+                    itemName
+                ));
             },
             error: function(req, status) {
                 $drpdwn.attr('disabled', false);
+                
+                // show the error, it persists
+                toastr.options.fadeOut = 0;
+                toastr.options.timeOut = 0;
+                toastr.error($.sprintf(
+                    '%s <b>unable</b> to check %s %s',
+                    personName,
+                    checked ? 'out' : 'in', 
+                    itemName
+                ), 'error');
                 //if (req.status == 500) { }
             }
         });

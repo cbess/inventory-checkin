@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class='{{ html_css_class }}{% if is_mobile %} mobile{% endif %}'>
+{% set can_edit = user.is_authenticated() %}
+<html class='{{ html_css_class }}{% if is_mobile %} mobile{% endif %}{% if can_edit %} edit{% endif %}'>
 
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
@@ -10,6 +11,7 @@
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
         <script src='/static/js/jquery.min.js'></script>
         <script src='/static/js/bootstrap.min.js'></script>
+        <script src='/static/js/toastr.min.js'></script>
 
         {% block header %}
         {% endblock %}
@@ -29,7 +31,7 @@
                     <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
-                    {% if user and user.is_authenticated() %}
+                    {% if can_edit %}
                     <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
                     <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
                     <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
@@ -50,7 +52,7 @@
         </div>
 <!--
     For His glory (Hebrews 1, Colossians 1, Genesis 1).
-    Copyright 2012 Christopher Bess
+    Copyright 2013 Christopher Bess
 -->
     </body>
 </html>

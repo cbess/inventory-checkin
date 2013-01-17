@@ -1,10 +1,13 @@
 {% extends "base.tpl" %}
 
+{% set can_edit = user.is_authenticated() %}
+
 {% block header %}
 {% if not user.is_authenticated() %}
 <meta http-equiv="refresh" content="{{ inventory_auto_refresh }}">
 {% endif %}
 
+<link rel="stylesheet" href="/static/css/toastr.css" type="text/css" charset="utf-8">
 <script src="/static/js/jquery.string.min.js"></script>
 <script src="/static/js/inventory.js"></script>
 <meta id='inventory-meta' data-confirmation-checkin="{% if confirmation.checkin %}yes{% else %}no{% endif %}">
@@ -24,7 +27,6 @@
 
 {% block content %}
 <div id="inventory">
-    {% set can_edit = user.is_authenticated() %}
     <div class="alert alert-info">
         Updated!
     </div>
@@ -36,7 +38,7 @@
             {% set latest_person = item.get_latest_person() %}
 
             <tr id="item-{{ item.id }}">
-                <td class="device-name">
+                <td class="device-name" data-name='{{ item.name }}'>
                     <strong>{{ item.name }}</strong>
                 </td>
                 <td class="person">

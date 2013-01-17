@@ -89,7 +89,8 @@ label {
 #inventory .action {
     display: none;
 }
-.mobile #inventory .action {
+.mobile #inventory .action,
+    .edit #inventory .action {
     display: block;
 }
 .alert {
