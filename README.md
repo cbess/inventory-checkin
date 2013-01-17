@@ -7,6 +7,8 @@ Review the `settings.py` file for configuration details.
 
 Note: This is **beta** software.
 
+![ICI Image](https://github.com/cbess/inventory-checkin/raw/master/ici-screenshot.jpeg)
+
 ## Basic Setup
 
 **Requires Python 2.6 or later**
