@@ -21,7 +21,7 @@ ROOT_DIR = os.path.abspath('.')
 LOG_PATH = ''
 
 # The name of the server type to use as the web server.
-# CherryPy support is built-in, if production: 'cherrypy'.
+# CherryPy and Tornado support is built-in, if production: 'cherrypy' or 'tornado'.
 # type: string
 # default: None
 SERVER_TYPE = None
