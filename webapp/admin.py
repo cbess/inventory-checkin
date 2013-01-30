@@ -12,7 +12,7 @@ from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
 from datetime import datetime
 
 
-def format_prop(model, prop_name):
+def format_prop(context, model, prop_name):
     # format the status field value to a string
     if prop_name == 'status':
         return INVENTORY_STATUS[model.status - 1][1]
@@ -34,20 +34,20 @@ class AdminModelView(adminview.ModelView):
 
 ## Model Admins
 class PersonAdmin(AdminModelView):
-    searchable_columns = ('name',)
+    column_searchable_list = ('name',)
 
 
 class UserAdmin(AdminModelView):
-    list_columns = ('name', 'email')
-    searchable_columns = ('email',)
+    column_list = ('name', 'email')
+    column_searchable_list = ('email',)
 
 
 class InventoryItemAdmin(AdminModelView):
-    list_columns = ('name', 'identifier', 'status', 'group', 'date_updated')
-    excluded_form_columns = ('date_added', 'date_updated')
-    searchable_columns = ('name', 'identifier')
-    list_formatters = {
-        'date_updated' : lambda model, p: model.date_updated.strftime(DEFAULT_DATE_FORMAT),
+    column_list = ('name', 'identifier', 'status', 'group', 'date_updated')
+    form_excluded_columns = ('date_added', 'date_updated')
+    column_searchable_list = ('name', 'identifier')
+    column_formatters = {
+        'date_updated' : lambda ctx, model, prop: model.date_updated.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_prop,
         'group' : format_prop
     }
@@ -83,10 +83,10 @@ class InventoryItemAdmin(AdminModelView):
 
 class InventoryLogAdmin(AdminModelView):
     can_create = settings.DEBUG
-    rename_columns = {'date_added' : 'Date'}
-    disallowed_actions = ('delete',) if not settings.DEBUG else []
-    list_formatters = {
-        'date_added' : lambda model, p: model.date_added.strftime(DEFAULT_DATE_FORMAT),
+    column_labels = {'date_added' : 'Date'}
+    action_disallowed_list = ('delete',) if not settings.DEBUG else []
+    column_formatters = {
+        'date_added' : lambda ctx, model, prop: model.date_added.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_prop
     }
 
