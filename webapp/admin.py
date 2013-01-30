@@ -53,7 +53,7 @@ class InventoryItemAdmin(AdminModelView):
     }
 
     def create_model(self, form):
-        if InventoryItem.filter(identifier=form.identifier.data).exists():
+        if InventoryItem.filter(InventoryItem.identifier == form.identifier.data).exists():
             flash('Identifier (%s) is already in use' % form.identifier.data)
             return False
         # overriden to update the date values of the model
@@ -116,7 +116,7 @@ def init_login():
     @login_manager.user_loader
     def load_user(user_id):
         try:
-            return User.select().get(id=user_id)
+            return User.filter(User.id == user_id).get()
         except User.DoesNotExist:
             pass
 
@@ -125,10 +125,8 @@ def setup():
     init_login()
 
     adm = admin.Admin(app, settings.SITE_TITLE+' Admin', index_view=AdminIndexView())
-
     adm.add_view(UserAdmin(User))
     adm.add_view(PersonAdmin(Person))
     adm.add_view(AdminModelView(InventoryGroup))
     adm.add_view(InventoryItemAdmin(InventoryItem))
     adm.add_view(InventoryLogAdmin(InventoryLog))
-    pass

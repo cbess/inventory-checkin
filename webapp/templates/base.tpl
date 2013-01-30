@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-{% set can_edit = user.is_authenticated() %}
+{% if current_user %}
+{% set can_edit = current_user.is_authenticated() %}
+{% endif %}
 <html class='{{ html_css_class }}{% if is_mobile %} mobile{% endif %}{% if can_edit %} edit{% endif %}'>
 
     <head>

@@ -20,6 +20,6 @@ class LoginForm(wtf.Form):
 
     def get_user(self):
         try:
-            return User.select().get(email=self.login.data)
+            return User.filter(User.email == self.login.data).get()
         except User.DoesNotExist:
             pass

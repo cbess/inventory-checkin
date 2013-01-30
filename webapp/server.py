@@ -44,6 +44,9 @@ def run():
     elif server_type == 'tornado':
         import server_tornado
         server_tornado.run()
+    elif server_type == 'gevent':
+        import server_gevent
+        server_gevent.run()
     else: # default server (flask/werkzeug)
         if SERVER_PROCESSES > 1 and SERVER_IS_THREADED:
             raise Exception('Choose either multi-threaded or multi-process')

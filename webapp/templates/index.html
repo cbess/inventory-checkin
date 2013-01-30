@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block content %}
-    {% set is_auth = user.is_authenticated() %}
-
+    {% if current_user %}
+    {% set is_auth = current_user.is_authenticated() %}
+    {% endif %}
+    
     {% if not is_auth %}
         <a href="{{ url_for('login_view') }}" class="btn">Login</a>
     {% endif %}

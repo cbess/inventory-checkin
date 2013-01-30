@@ -16,9 +16,6 @@ class BaseModel(peewee.Model):
 class Person(BaseModel):
     name = peewee.CharField(max_length=80, unique=True)
 
-    class Meta:
-        ordering = (('name', 'asc'),)
-
     def __unicode__(self):
         return self.name
 
@@ -28,6 +25,9 @@ class User(Person):
     password = peewee.CharField(max_length=250)
     is_admin = peewee.BooleanField(default=False)
 
+    class Meta:
+        order_by = ('name',)
+        
     # Flask-Login integration
     def is_authenticated(self):
         return True
@@ -49,7 +49,7 @@ class InventoryGroup(BaseModel):
     name = peewee.CharField(max_length=200)
 
     class Meta:
-        ordering = (('name', 'asc'),)
+        order_by = ('name',)
 
     def __unicode__(self):
         return self.name
@@ -65,7 +65,7 @@ class InventoryItem(BaseModel):
     status = peewee.IntegerField(default=1, choices=INVENTORY_STATUS)
 
     class Meta:
-        ordering = (('name', 'asc'),)
+        order_by = ('name',)
 
     def __unicode__(self):
         return self.name
@@ -73,7 +73,7 @@ class InventoryItem(BaseModel):
     def get_latest_person(self):
         # get the latest log for this item
         try:
-            log = InventoryLog.select().order_by(('date_added', 'DESC')).get(item=self)
+            log = InventoryLog.filter(InventoryLog.item == self).order_by(InventoryItem.date_added.desc()).get()
         except InventoryLog.DoesNotExist:
             return None
         return log.person
@@ -86,7 +86,7 @@ class InventoryLog(BaseModel):
     date_added = peewee.DateTimeField()
 
     class Meta:
-        ordering = (('date_added', 'desc'),)
+        order_by = ('-date_added',)
 
     def __unicode__(self):
         return u'%s - %s' % (status, date_added)
