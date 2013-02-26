@@ -1,6 +1,6 @@
 from flask.ext import admin, login
 from flask import flash
-from flask.ext.admin.contrib import peeweemodel as adminview
+from flask.ext.admin.contrib import mongoengine as adminview
 from models import User, Person, \
     InventoryItem, InventoryLog, InventoryGroup, \
     INVENTORY_STATUS
