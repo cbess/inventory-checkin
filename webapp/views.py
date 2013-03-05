@@ -66,14 +66,14 @@ def logout_view():
 
 @app.route('/inventory/')
 def inventory_view():
-    items = InventoryItem.select()
+    items = InventoryItem.objects.all()
     group_id = request.args.get('group', '')
     if group_id:
         items  = items.filter(group=group_id)
     response = {
         'items' : items,
-        'persons' : Person.select(),
-        'groups' : InventoryGroup.select(),
+        'persons' : Person.objects.all(),
+        'groups' : InventoryGroup.objects.all(),
         'group_id' : int(group_id) if group_id else '',
         'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL,
         'confirmation' : core_settings.USER_CONFIRMATION,
@@ -88,13 +88,13 @@ def inventory_view():
 def inventory_update_view():
     # add a log
     InventoryLog.create(
-        person=Person.get(id=request.form['personid']),
-        item=InventoryItem.get(id=request.form['itemid']),
+        person=Person.objects(id=request.form['personid']).get(),
+        item=InventoryItem.objects(id=request.form['itemid']).get(),
         status=int(request.form['status']),
         date_added=datetime.now()
     )
     # update the item status
-    item = InventoryItem.get(id=request.form['itemid'])
+    item = InventoryItem.objects(id=request.form['itemid']).get()
     item.status = int(request.form['status'])
     item.save()
     return 'ok'

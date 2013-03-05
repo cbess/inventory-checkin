@@ -53,12 +53,12 @@ class InventoryItemAdmin(AdminModelView):
     }
 
     def create_model(self, form):
-        if InventoryItem.filter(InventoryItem.identifier == form.identifier.data).exists():
+        if InventoryItem.objects(identifier=form.identifier.data).exists():
             flash('Identifier (%s) is already in use' % form.identifier.data)
             return False
         # overriden to update the date values of the model
         now = datetime.now()
-        item = InventoryItem.insert(
+        item = InventoryItem(
             name=form.name.data,
             identifier=form.identifier.data,
             comment=form.comment.data,
@@ -68,8 +68,8 @@ class InventoryItemAdmin(AdminModelView):
             date_updated=now
         )
         try:
-            item.execute()
-        except sqlite3.IntegrityError, e:
+            item.save()
+        except Exception, e:
             flash('Unable to add the item', category='error')
             if settings.DEBUG:
                 flash('%s' % e, category='error')
@@ -116,7 +116,7 @@ def init_login():
     @login_manager.user_loader
     def load_user(user_id):
         try:
-            return User.filter(User.id == user_id).get()
+            return User.objects(id=user_id).get()
         except User.DoesNotExist:
             pass
 

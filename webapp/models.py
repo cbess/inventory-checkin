@@ -2,27 +2,27 @@ from core import db
 from core import settings
 from server import app
 from flask.ext import admin
-import sqlite3
+import mongoengine
 
 INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 
 
-class BaseModel(db.Document):
-    pass
-
-
-class Person(BaseModel):
+class Person(db.Document):
     name = db.StringField(max_length=80, unique=True)
-
+        
+    class Meta:
+        order_by = ('name',)
+        
     def __unicode__(self):
         return self.name
-
-
-class User(Person):
-    email = db.StringField(max_length=120)
+        
+        
+class User(db.Document):
+    name = db.StringField(max_length=80, unique=True)
+    email = db.EmailField(max_length=120)
     password = db.StringField(max_length=250)
     is_admin = db.BooleanField(default=False)
-
+        
     class Meta:
         order_by = ('name',)
         
@@ -43,7 +43,7 @@ class User(Person):
         return self.email
 
 
-class InventoryGroup(BaseModel):
+class InventoryGroup(db.Document):
     name = db.StringField(max_length=200)
 
     class Meta:
@@ -53,7 +53,7 @@ class InventoryGroup(BaseModel):
         return self.name
 
 
-class InventoryItem(BaseModel):
+class InventoryItem(db.Document):
     group = db.ReferenceField(InventoryGroup)
     name = db.StringField(max_length=255)
     identifier = db.StringField(unique=True, max_length=500)
@@ -71,13 +71,13 @@ class InventoryItem(BaseModel):
     def get_latest_person(self):
         # get the latest log for this item
         try:
-            log = InventoryLog.filter(InventoryLog.item == self).order_by(InventoryItem.date_added.desc()).get()
+            log = InventoryLog.objects(item=self).order_by(InventoryItem.date_added.desc()).get()
         except InventoryLog.DoesNotExist:
             return None
         return log.person
 
 
-class InventoryLog(BaseModel):
+class InventoryLog(db.Document):
     person = db.ReferenceField(Person)
     item = db.ReferenceField(InventoryItem)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
@@ -94,7 +94,6 @@ def setup():
     tables = (User, InventoryItem, InventoryLog, Person, InventoryGroup)
     for table in tables:
         try:
-            # table.create_table()
             if User == table:
                 # add an admin user
                 User(
@@ -103,7 +102,6 @@ def setup():
                     password='admin',
                     is_admin=True
                 ).save()
-                pass
-        except sqlite3.OperationalError:
-            # table may already exist
+        except mongoengine.document.NotUniqueError:
+            # already exists
             pass
