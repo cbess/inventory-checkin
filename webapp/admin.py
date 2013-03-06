@@ -10,6 +10,9 @@ from core import settings
 from core import utils
 from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
 from datetime import datetime
+from wtforms.fields import SelectField
+import models
+import forms
 
 
 def format_prop(context, model, prop_name):
@@ -43,6 +46,7 @@ class UserAdmin(AdminModelView):
 
 
 class InventoryItemAdmin(AdminModelView):
+    form = forms.InventoryItemForm
     column_list = ('name', 'identifier', 'status', 'group', 'date_updated')
     form_excluded_columns = ('date_added', 'date_updated')
     column_searchable_list = ('name', 'identifier')
@@ -50,10 +54,10 @@ class InventoryItemAdmin(AdminModelView):
         'date_updated' : lambda ctx, model, prop: model.date_updated.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_prop,
         'group' : format_prop
-    }
-
+    }    
+        
     def create_model(self, form):
-        if InventoryItem.objects(identifier=form.identifier.data).exists():
+        if form.identifier.data and InventoryItem.objects(identifier=form.identifier.data).count():
             flash('Identifier (%s) is already in use' % form.identifier.data)
             return False
         # overriden to update the date values of the model
@@ -72,7 +76,7 @@ class InventoryItemAdmin(AdminModelView):
         except Exception, e:
             flash('Unable to add the item', category='error')
             if settings.DEBUG:
-                flash('%s' % e, category='error')
+                flash('DEBUG: %s' % e, category='error')
             return False
         return True
 
@@ -89,7 +93,9 @@ class InventoryLogAdmin(AdminModelView):
         'date_added' : lambda ctx, model, prop: model.date_added.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_prop
     }
-
+    form_args = dict(
+        status=dict(coerce=int)
+    )
 
 # Create customized index view class
 class AdminIndexView(admin.AdminIndexView):

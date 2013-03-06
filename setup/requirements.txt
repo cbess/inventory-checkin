@@ -1,8 +1,8 @@
 flask
 jinja2
-cherrypy
 flask-admin
-flask-peewee
-# flask-sqlalchemy
 flask-login
 flask-mongoengine
+# servers
+cherrypy
+tornado

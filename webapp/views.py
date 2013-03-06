@@ -19,16 +19,20 @@ from datetime import datetime
 def add_default_response(response):
     """Adds the default response parameters to the response.
     """
+    response['user'] = login.current_user
     response['site_banner_text'] = core_settings.SITE_BANNER_TEXT
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
-    response["user"] = login.current_user
-    response["INVENTORY_ITEM_NAME"] = core_settings.INVENTORY_ITEM_NAME
-    response["INVENTORY_ITEM_NAME_PLURAL"] = core_settings.INVENTORY_ITEM_NAME_PLURAL
+    response['INVENTORY_ITEM_NAME'] = core_settings.INVENTORY_ITEM_NAME
+    response['INVENTORY_ITEM_NAME_PLURAL'] = core_settings.INVENTORY_ITEM_NAME_PLURAL
     # simple mobile (iphone/ipad) check
     response['is_mobile'] = (request.headers.get('User-Agent', '').find('Mobile') >= 0)
-    pass
+
     
+@app.route('/favicon.ico', methods=('GET',))
+def favicon():
+    return app.send_static_file('favicon.ico')
+
 
 @app.route('/')
 def index():
@@ -87,12 +91,12 @@ def inventory_view():
 @app.route('/inventory-update', methods=['POST'])
 def inventory_update_view():
     # add a log
-    InventoryLog.create(
+    InventoryLog(
         person=Person.objects(id=request.form['personid']).get(),
         item=InventoryItem.objects(id=request.form['itemid']).get(),
         status=int(request.form['status']),
         date_added=datetime.now()
-    )
+    ).save()
     # update the item status
     item = InventoryItem.objects(id=request.form['itemid']).get()
     item.status = int(request.form['status'])

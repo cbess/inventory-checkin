@@ -3,6 +3,7 @@ from core import settings
 from server import app
 from flask.ext import admin
 import mongoengine
+import datetime
 
 INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 
@@ -81,7 +82,7 @@ class InventoryLog(db.Document):
     person = db.ReferenceField(Person)
     item = db.ReferenceField(InventoryItem)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
-    date_added = db.DateTimeField()
+    date_added = db.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         order_by = ('-date_added',)
@@ -92,6 +93,7 @@ class InventoryLog(db.Document):
 
 def setup():
     tables = (User, InventoryItem, InventoryLog, Person, InventoryGroup)
+    # setup defaults for each document, if needed
     for table in tables:
         try:
             if User == table:
