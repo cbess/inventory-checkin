@@ -57,6 +57,7 @@ class InventoryItemAdmin(AdminModelView):
     }    
         
     def create_model(self, form):
+        # only if its set do we care if its unique
         if form.identifier.data and InventoryItem.objects(identifier=form.identifier.data).count():
             flash('Identifier (%s) is already in use' % form.identifier.data)
             return False
@@ -67,7 +68,8 @@ class InventoryItemAdmin(AdminModelView):
             identifier=form.identifier.data,
             comment=form.comment.data,
             status=form.status.data,
-            group=form.group.data,
+            # get the model for the target group
+            group=InventoryGroup.objects.get(id=form.group.data),
             date_added=now,
             date_updated=now
         )
@@ -82,7 +84,17 @@ class InventoryItemAdmin(AdminModelView):
 
     def update_model(self, form, model):
         model.date_updated = datetime.now()
+        # super will save it for us, change it to a model ref
+        form.group.data = InventoryGroup.objects.get(id=form.group.data)
         return super(AdminModelView, self).update_model(form, model)
+        
+    def get_list(self, page, sort_field, sort_desc, search, filters):
+        """Returns a list of results for the specified list arguements
+        @return tuple (count, [list of models])
+        """
+        if search:
+            pass
+        return super(InventoryItemAdmin, self).get_list(page, sort_field, sort_desc, search, filters)
 
 
 class InventoryLogAdmin(AdminModelView):

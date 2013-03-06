@@ -46,6 +46,7 @@ class User(db.Document):
 
 class InventoryGroup(db.Document):
     name = db.StringField(max_length=200)
+    identifier = db.StringField(unique=True, max_length=33)
 
     class Meta:
         order_by = ('name',)
@@ -72,7 +73,7 @@ class InventoryItem(db.Document):
     def get_latest_person(self):
         # get the latest log for this item
         try:
-            log = InventoryLog.objects(item=self).order_by(InventoryItem.date_added.desc()).get()
+            log = InventoryLog.objects(item=self).order_by('-date_added').first()
         except InventoryLog.DoesNotExist:
             return None
         return log.person

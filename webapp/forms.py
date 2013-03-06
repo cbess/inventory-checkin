@@ -1,6 +1,6 @@
 from flask.ext import admin, login, wtf
 from flask import url_for, redirect, render_template, request
-from models import User, INVENTORY_STATUS, InventoryGroup
+from models import User, INVENTORY_STATUS, InventoryGroup, InventoryItem
 from core import utils
 
 
@@ -36,11 +36,15 @@ class InventoryItemForm(wtf.Form):
     def __init__(self, formdata=None, obj=None, prefix='', **kwargs):
         super(InventoryItemForm, self).__init__(request.form, obj, prefix, **kwargs)
         self.csrf_enabled = False
-        self.group.choices = [(grp.id, grp.name) for grp in InventoryGroup.objects]
+        self.group.choices = [(str(grp.id), grp.name) for grp in InventoryGroup.objects]
+        # select the group
+        if request.args.get('id') and not self.is_submitted():
+            item = InventoryItem.objects(id=request.args.get('id')).get()
+            self.group.data = str(item.group.id)
+        # utils.debug()
         
     def validate(self, extra_validators=None):
         success = True
-        # utils.debug()
         # run validation for fields
         for field in (self.name, self.status):
             if not field.validate(self.data):
@@ -52,6 +56,5 @@ class InventoryItemForm(wtf.Form):
         super(InventoryItemForm, self).process(formdata, obj, **kwargs)
         if self.is_submitted():
             # convert to admin model friendly types
-            self.group.data = InventoryGroup.objects.get(id=self.group.data)
             self.status.data = int(self.status.data)
         

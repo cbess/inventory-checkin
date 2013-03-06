@@ -70,15 +70,17 @@ def logout_view():
 
 @app.route('/inventory/')
 def inventory_view():
-    items = InventoryItem.objects.all()
-    group_id = request.args.get('group', '')
+    items = InventoryItem.objects
+    group_id = request.args.get('group')
     if group_id:
-        items  = items.filter(group=group_id)
+        group = InventoryGroup.objects.get(identifier=group_id)
+        items = items(group=group)
+        
     response = {
         'items' : items,
         'persons' : Person.objects.all(),
         'groups' : InventoryGroup.objects.all(),
-        'group_id' : int(group_id) if group_id else '',
+        'group_id' : group_id if group_id else '',
         'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL,
         'confirmation' : core_settings.USER_CONFIRMATION,
         'inventory_auto_refresh' : core_settings.INVENTORY_AUTO_REFRESH
