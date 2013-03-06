@@ -19,7 +19,7 @@ class Person(db.Document):
         
 class User(db.Document):
     name = db.StringField(max_length=80, unique=True)
-    email = db.EmailField(max_length=120)
+    email = db.StringField(max_length=120)
     password = db.StringField(max_length=250)
     is_admin = db.BooleanField(default=False)
         
