@@ -101,7 +101,7 @@ for item in LegacyInventoryItem.select():
         comment=item.comment,
         date_added=item.date_added,
         date_updated=item.date_updated,
-        status=int(item.status)
+        status=1 # force it to 'checked in' state
     ).save()
-    print 'Migrated Inventory Item: '+item.name
+    print 'Migrated Item: '+item.name
     
