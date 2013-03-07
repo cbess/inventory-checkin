@@ -15,7 +15,7 @@ import forms
 
 
 def format_prop(context, model, prop_name):
-    # format the status field value to a string
+    """Format the status field value to a string"""
     if prop_name == 'status':
         return INVENTORY_STATUS[model.status - 1][1]
     elif prop_name == 'group':
@@ -27,7 +27,7 @@ def format_prop(context, model, prop_name):
     
     
 def can_access_admin(user):
-    # determines if the specified user can access the admin
+    """Determines if the specified user can access the admin"""
     if user.is_anonymous():
         return False
     if not user.is_authenticated() or not user.is_admin:

@@ -57,10 +57,19 @@ SITE_TITLE = 'iMate'
 # default: black
 SITE_BANNER_COLOR = 'black'
 
-# The name of the database or the path to the database.
+# The monogo database connection settings.
+# Supports:
+#   DB = database name (required)
+#   HOST = hostname (optional, default: localhost)
+#   PORT = port (optional, default: 27017)
+#   USERNAME = username (optional)
+#   PASSWORD = password (optional)
+#
 # type: string
-# default: webapp.db
-DATABASE_NAME = 'webapp.db'
+# default: inventorymate
+DATABASE = {
+    'DB' : 'inventorymate',
+}
 
 # The name of the inventory items
 # type: string
