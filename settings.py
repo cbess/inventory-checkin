@@ -3,16 +3,16 @@ import os
 
 # `%(app_dir)s` resolves to the directory where iMate is installed.
 
-# A value indicating whether the app runs in debug mode.
-# type: boolean
-# default: True (set to False for production or in untrusted environments use)
-DEBUG = True
-
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, core/, etc.
 # type: string
 # default: os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(__file__)
+
+# A value indicating whether the app runs in debug mode.
+# type: boolean
+# default: True (set to False if deployed in production or untrusted environments)
+DEBUG = True
 
 # An absolute path to the directory path that will store the logs.
 # Set to an empty string to disable logging.
@@ -57,7 +57,7 @@ SITE_TITLE = 'InventoryMate'
 # default: black
 SITE_BANNER_COLOR = 'black'
 
-# The monogo database connection settings.
+# The mongo database connection settings.
 # Supports:
 #   DB = database name (required)
 #   HOST = hostname (optional, default: localhost)
@@ -97,4 +97,3 @@ try:
     from local_settings import *
 except ImportError:
     print 'No local_settings.py found. Using all default settings.'
-    pass
