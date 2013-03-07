@@ -11,8 +11,8 @@ DEBUG = True
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, core/, etc.
 # type: string
-# default: os.path.abspath('.')
-ROOT_DIR = os.path.abspath('.')
+# default: os.path.dirname(__file__)
+ROOT_DIR = os.path.dirname(__file__)
 
 # An absolute path to the directory path that will store the logs.
 # Set to an empty string to disable logging.
