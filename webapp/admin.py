@@ -1,6 +1,7 @@
 from flask.ext import admin, login
 from flask import flash
 from flask.ext.admin.contrib import mongoengine as adminview
+from mongoengine.queryset import Q
 from models import User, Person, \
     InventoryItem, InventoryLog, InventoryGroup, \
     INVENTORY_STATUS
@@ -10,8 +11,6 @@ from core import settings
 from core import utils
 from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT, DEFAULT_DATE_FORMAT
 from datetime import datetime
-from wtforms.fields import SelectField
-import models
 import forms
 
 
@@ -87,14 +86,6 @@ class InventoryItemAdmin(AdminModelView):
         # super will save it for us, change it to a model ref
         form.group.data = InventoryGroup.objects.get(id=form.group.data)
         return super(AdminModelView, self).update_model(form, model)
-        
-    def get_list(self, page, sort_field, sort_desc, search, filters):
-        """Returns a list of results for the specified list arguements
-        @return tuple (count, [list of models])
-        """
-        if search:
-            pass
-        return super(InventoryItemAdmin, self).get_list(page, sort_field, sort_desc, search, filters)
 
 
 class InventoryLogAdmin(AdminModelView):
@@ -105,9 +96,7 @@ class InventoryLogAdmin(AdminModelView):
         'date_added' : lambda ctx, model, prop: model.date_added.strftime(DEFAULT_DATE_FORMAT),
         'status' : format_prop
     }
-    form_args = dict(
-        status=dict(coerce=int)
-    )
+    form_args = {'status': {'coerce': int}}
 
 # Create customized index view class
 class AdminIndexView(admin.AdminIndexView):
