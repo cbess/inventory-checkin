@@ -24,15 +24,22 @@ def format_prop(context, model, prop_name):
         except InventoryGroup.DoesNotExist:
             return 'None'
     return None
+    
+    
+def can_access_admin(user):
+    # determines if the specified user can access the admin
+    if user.is_anonymous():
+        return False
+    if not user.is_authenticated() or not user.is_admin:
+        return False
+    return user.is_authenticated()
 
 
 ## Base Models
 class AdminModelView(adminview.ModelView):
     def is_accessible(self):
-        if not login.current_user.is_admin:
-            return False
-        return login.current_user.is_authenticated()
-
+        user = login.current_user
+        return can_access_admin(user)
 
 ## Model Admins
 class PersonAdmin(AdminModelView):
@@ -109,9 +116,7 @@ class AdminIndexView(admin.AdminIndexView):
         return html
 
     def is_accessible(self):
-        if not login.current_user.is_admin:
-            return False
-        return login.current_user.is_authenticated()
+        return can_access_admin(login.current_user)
 
 
 # Initialize flask-login

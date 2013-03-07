@@ -1,5 +1,6 @@
 from core import db
 from core import settings
+from core import utils
 from server import app
 from flask.ext import admin
 import mongoengine
@@ -74,6 +75,8 @@ class InventoryItem(db.Document):
         # get the latest log for this item
         try:
             log = InventoryLog.objects(item=self).order_by('-date_added').first()
+            if not log:
+                return None
         except InventoryLog.DoesNotExist:
             return None
         return log.person
@@ -89,7 +92,7 @@ class InventoryLog(db.Document):
         order_by = ('-date_added',)
 
     def __unicode__(self):
-        return u'%s - %s' % (status, date_added)
+        return u'%s - %s' % (self.status, self.date_added)
 
 
 def setup():
