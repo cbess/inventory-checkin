@@ -41,7 +41,6 @@ class InventoryItemForm(wtf.Form):
         if request.args.get('id') and not self.is_submitted():
             item = InventoryItem.objects(id=request.args.get('id')).get()
             self.group.data = str(item.group.id)
-        # utils.debug()
         
     def validate(self, extra_validators=None):
         success = True

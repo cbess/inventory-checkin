@@ -19,6 +19,9 @@ def get_version_info(module):
     if module == 'cherrypy':
         import cherrypy
         return cherrypy.__version__
+    elif module == 'mongoengine':
+        import mongoengine
+        return mongoengine.__version__
     elif module == 'flask':
         return flask.__version__
     return '0.0'

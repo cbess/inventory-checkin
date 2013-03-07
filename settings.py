@@ -46,8 +46,8 @@ SITE_BANNER_TEXT = 'InventoryMate'
 # The site title text (displayed in browser tab or title bar of window).
 # This is appended to each auto-generated page title.
 # type: string
-# default: 'iMate'
-SITE_TITLE = 'iMate'
+# default: 'InventoryMate'
+SITE_TITLE = 'InventoryMate'
 
 # The site banner background color. This banner is shown at the top of each page.
 # Possible values: black, blue, skyblue, silver, orange, white

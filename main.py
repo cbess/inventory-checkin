@@ -66,6 +66,7 @@ def run():
     elif options.show_version:
         pyver = sys.version_info
         print '  Python: v%d.%d.%d' % (pyver.major, pyver.minor, pyver.micro)
+        print '  Mongoengine: ' + get_version_info('mongoengine')
         print '   webapp: v' + get_version_info('webapp')
         print '   Flask: v' + get_version_info('flask')
         print 'CherryPy: v' + get_version_info('cherrypy')
