@@ -29,7 +29,6 @@ Instructions:
 	- Copy `settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
 1. Run `source inventorycheckin_env/bin/activate` to enter the virtual environment.
-1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
 1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
@@ -42,7 +41,7 @@ The defaults can be changed in the admin: `http://localhost:7777/admin`.
 
 ### Usage Scenario
 
-This web app will allow you to setup users which are either, admin or only authenticated. However, the system works with three user types: `admin`, `authenticated`, and `anonymous`.
+This web app will allow you to setup users which are either `admin` or only `authenticated`. However, the system works with three user types: `admin`, `authenticated`, and `anonymous`.
 
 Typical scenario (setup):
 
