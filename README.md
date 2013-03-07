@@ -11,7 +11,10 @@ Note: This is **beta** software.
 
 ## Basic Setup
 
-**Requires Python 2.6 or later**
+**Requires** 
+    
+- [Python](http://python.org) +2.6
+- [MonogoDB](http://www.mongodb.org) +2.x
 
 Instructions:
 
