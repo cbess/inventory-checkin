@@ -18,7 +18,7 @@ Note: This is **beta** software.
 **Requires**
     
 - [Python](http://python.org) +2.6
-- [MonogoDB](http://www.mongodb.org) +2.x
+- [MongoDB](http://www.mongodb.org) +2.x
 
 Instructions:
 
