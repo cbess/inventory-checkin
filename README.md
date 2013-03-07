@@ -11,7 +11,7 @@ Note: This is **beta** software.
 
 ## Basic Setup
 
-**Requires** 
+**Requires**
     
 - [Python](http://python.org) +2.6
 - [MonogoDB](http://www.mongodb.org) +2.x
@@ -20,7 +20,7 @@ Instructions:
 
 1. Download [Inventory Checkin](https://github.com/cbess/inventory-checkin) source from [GitHub](https://github.com/cbess/inventory-checkin).
 1. Extract/place the source code in the desired (install) directory. This will be where the app lives.
-1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download packages.
+1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download dependencies.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
 	- Copy `settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
@@ -56,9 +56,7 @@ CO/I = Check Out and In
     - Go to `/inventory`.
     - It is a readonly view of the inventory, that auto-refreshes.
 
-#### Deployment Notes
-
-Under some circumstances, due to a multi-threading bug, the server may terminate unexpectedly. As a work around, you can use [supervisord](http://supervisord.org/index.html).
+### Deployment Notes
 
 Sample `supervisord.conf` section:
 
