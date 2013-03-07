@@ -11,9 +11,7 @@ INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 
 class Person(db.Document):
     name = db.StringField(max_length=80, unique=True)
-        
-    class Meta:
-        order_by = ('name',)
+    meta = {'ordering': ['name']}
         
     def __unicode__(self):
         return self.name
@@ -24,10 +22,8 @@ class User(db.Document):
     email = db.StringField(max_length=120)
     password = db.StringField(max_length=250)
     is_admin = db.BooleanField(default=False)
-        
-    class Meta:
-        order_by = ('name',)
-        
+    meta = {'ordering': ['name']}
+    
     # Flask-Login integration
     def is_authenticated(self):
         return True
@@ -48,9 +44,7 @@ class User(db.Document):
 class InventoryGroup(db.Document):
     name = db.StringField(max_length=200)
     identifier = db.StringField(unique=True, max_length=33)
-
-    class Meta:
-        order_by = ('name',)
+    meta = {'ordering': ['name']}
 
     def __unicode__(self):
         return self.name
@@ -59,14 +53,12 @@ class InventoryGroup(db.Document):
 class InventoryItem(db.Document):
     group = db.ReferenceField(InventoryGroup)
     name = db.StringField(max_length=255)
-    identifier = db.StringField(unique=True, max_length=500)
+    identifier = db.StringField(max_length=500)
     comment = db.StringField(max_length=200)
     date_added = db.DateTimeField()
     date_updated = db.DateTimeField()
     status = db.IntField(default=1, choices=INVENTORY_STATUS)
-
-    class Meta:
-        order_by = ('name',)
+    meta = {'ordering': ['name']}
 
     def __unicode__(self):
         return self.name
@@ -87,9 +79,7 @@ class InventoryLog(db.Document):
     item = db.ReferenceField(InventoryItem)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
     date_added = db.DateTimeField(default=datetime.datetime.now)
-
-    class Meta:
-        order_by = ('-date_added',)
+    meta = {'ordering': ['-date_added']}
 
     def __unicode__(self):
         return u'%s - %s' % (self.status, self.date_added)

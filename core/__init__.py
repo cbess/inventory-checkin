@@ -1,5 +1,4 @@
 from cherrypy import wsgiserver as cherrypy_wsgiserver
-import peewee
 from flask.ext.mongoengine import MongoEngine
 import flask
 import settings
