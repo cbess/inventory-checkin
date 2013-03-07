@@ -9,6 +9,7 @@ html body {
     padding: 50px 20px 10px 20px;
     font-size: 15px;
     color: black;
+    font-family: "Helvetica Neue";
 }
 #content {
     margin: 0 auto;
@@ -32,12 +33,18 @@ a.clear-btn {
 label {
     width: auto;
 }
+.mobile select {
+    font-weight: bold;
+}
 
 /*top banner styles*/
 #top-banner {
     height: 50px;
     margin: -8px -8px 7px;
     box-shadow: 5px 2px 5px #777;
+}
+.mobile #top-banner {
+    height: 73px;
 }
 #top-banner #banner-text {
     position: relative;
@@ -47,11 +54,20 @@ label {
     font-size: 20px;
     text-shadow: 0 0 silver, -2px 0 black;
 }
+.mobile #top-banner #banner-text {
+    top: 25px;
+}
 #top-banner #menu {
     float: right;
     position: relative;
     right: 100px;
     top: 9px;
+}
+.mobile #top-banner #group-list {
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Helvetica;
 }
 
 /* inventory styles */
@@ -71,7 +87,8 @@ label {
 .mobile #inventory table td {
     line-height: 60px;
 }
-.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
+.table-striped tbody tr:nth-child(odd) td, 
+    .table-striped tbody tr:nth-child(odd) th {
     background-color: #f2f2f2;
 }
 #inventory .person {
