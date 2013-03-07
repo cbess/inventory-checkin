@@ -7,7 +7,11 @@ Review the `settings.py` file for configuration details.
 
 Note: This is **beta** software.
 
-![ICI Image](https://github.com/cbess/inventory-checkin/raw/master/ici-screenshot.jpeg)
+![ICI Kiosk Image](https://github.com/cbess/inventory-checkin/raw/master/ici-screenshot.jpeg)
+**Kiosk**
+
+![ICI Admin Image](https://github.com/cbess/inventory-checkin/raw/master/ici-admin.jpg)
+**Admin**
 
 ## Basic Setup
 
