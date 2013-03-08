@@ -35,6 +35,7 @@ label {
 }
 .mobile select {
     font-weight: bold;
+    font-family: Helvetica;
 }
 
 /*
@@ -54,11 +55,14 @@ label {
 #top-banner #menu {
     float: right;
 }
+#top-banner #group-list {
+    margin: 10px 5px 10px;
+}
 .mobile #top-banner #group-list {
-    font-size: 20px;
-    font-weight: bold;
-    font-family: Helvetica;
-    position: inherit;
+    width: 50%;
+    font-size: 24px;
+    height: 37px;
+    margin: 5px;
 }
 
 /*
