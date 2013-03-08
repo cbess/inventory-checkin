@@ -74,25 +74,38 @@ label {
 #inventory #items {
     margin: 0 auto;
     width: 900px;
-    font-size: 30px;
 }
 #inventory table td {
     border: none;
     vertical-align: inherit;
-    line-height: 30px;
+    padding: 5px;
+}
+#inventory #items .btn-inverse {
+    color: #888;
 }
 .mobile #inventory table td {
     line-height: 60px;
 }
-.table-striped tbody tr:nth-child(odd) td, 
-    .table-striped tbody tr:nth-child(odd) th {
-    background-color: #f2f2f2;
+.table tbody tr:nth-child(odd) td .btn {
+/*    background-image: -webkit-linear-gradient(top, #009BEB, #004FED);*/
 }
 #inventory .person {
     text-align: center;
+    float: right;
+}
+#inventory .device-name {
+    font-size: 30px;
+    float: left;
+    margin: 10px;
+}
+#inventory .item-data {
+    height: 50px;
 }
 #inventory select {
     height: 40px;
+    background-color: transparent;
+    color: black;
+    border: none;
     -webkit-appearance: button;
 }
 #inventory .checkbox {

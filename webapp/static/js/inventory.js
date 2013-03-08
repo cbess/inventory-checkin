@@ -8,40 +8,49 @@ $(function() {
         onclick: null
 	};
     
+    // top banner <select> element
     $('#group-list').change(function() {
         this.form.submit();
     });
 
-    // auto-check the checkbox when a person is selected
+    // auto-check-out when a person is selected
     $('#inventory .person-list').change(function() {
-        var $checkbox = $(this).parents('tr').find('.checkbox');
-        var checkbox = $checkbox.get(0);
-        // disables drpdown when a name is selected, so assuming 'true' is ok
-        checkbox.checked = true;
-
-        // simulate checkbox click
-        $checkbox.click();
-        checkbox.checked = true; // make sure its stays checked
+        $row = $(this).parents('tr');
+        sendInventoryChangeState($row, {'checked': true});
+        $row.data('checked-out', 'yes');
     });
-
-    // send inventory change
-    $('#inventory .checkbox').click(function() {
-        var $self = $(this);
-        var $inventoryMeta = $('#inventory-meta');
-        var checked = this.checked;
-        var $row = $self.parents('tr');
+    
+    // inventory row clicked
+    $('#inventory .item-data').click(function() {
+        var checkedOut = ($(this).parents('tr').data('checked-out') == 'yes');
+        if (checkedOut) {
+            // show check-in
+            sendInventoryChangeState($(this).parents('tr'), {'checked': false});
+        } else { 
+            // show dropdown
+            // make fake mouse event to invoke display of the drop down
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('mousedown', true, true, window);
+            // send event to <select>
+            $select = $(this).find('.person select');
+            $select.get(0).dispatchEvent(event);
+        }
+    });
+    
+    function sendInventoryChangeState($row, params) {
         var $drpdwn = $row.find('.person-list');
-        var itemName = $row.find('.device-name').data('name');
-        var personName = $drpdwn.find('option:selected').text();
         var personid = $drpdwn.val();
-        var itemid = $self.val();
-        
         // if no person selected
         if (!parseInt(personid)) {
-            this.checked = false;
-            alert('Pick a person');
             return;
         }
+
+        var $inventoryMeta = $('#inventory-meta');
+        var itemName = $row.find('.device-name').data('name');
+        var personName = $drpdwn.find('option:selected').text();
+        var itemid = $row.data('item-id');
+        var checked = params.checked;
+        
 
         $drpdwn.attr('disabled', checked);
 
@@ -50,7 +59,7 @@ $(function() {
             var confirmMsg = $.sprintf('Check in %s\nAre you sure?', itemName);
             if ($inventoryMeta.data('confirmation-checkin') == 'yes' &&
                 confirm(confirmMsg) === false) {
-                    this.checked = true;
+                    $row.data('checked-out', 'yes');
                     return;
                 }
                 
@@ -68,8 +77,6 @@ $(function() {
                 'status' : (checked ? 2 /* check out */ : 1 /* check in */)
             },
             success: function(req, status, xhr) {
-                //var data = $.parseJSON(req);
-
                 // show the notification
                 toastr.options.fadeOut = 1000;
                 toastr.options.timeOut = 3000;
@@ -80,6 +87,8 @@ $(function() {
                     checked ? 'OUT' : 'IN', 
                     itemName
                 ));
+                
+                updateInventoryRow($row, checked);
             },
             error: function(req, status) {
                 $drpdwn.attr('disabled', false);
@@ -93,8 +102,15 @@ $(function() {
                     checked ? 'out' : 'in', 
                     itemName
                 ), 'error');
-                //if (req.status == 500) { }
+                
+                updateInventoryRow($row, !checked);
             }
         });
-    });
+    }
+    
+    function updateInventoryRow($row, checkedOut) {
+        $row.data('checked-out', checkedOut ? 'yes' : 'no');
+        $row.find('.item-data').toggleClass('btn-inverse');
+        $row.find('.person').toggleClass('hidden');
+    }
 });

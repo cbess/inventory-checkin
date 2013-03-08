@@ -33,40 +33,41 @@
         Updated!
     </div>
 
-    <table id="items" class="table table-striped">
+    <table id="items" class="table">
         <tbody>
         {% for item in items %}
             {% set checked_out = item.status == 2 %}
             {% set latest_person = item.get_latest_person() %}
 
-            <tr id="item-{{ item.id }}">
-                <td class="device-name" data-name='{{ item.name }}'>
-                    <strong>{{ item.name }}</strong>
-                </td>
-                <td class="person">
-                    {% if can_edit %}
-                    <select class="person-list btn btn-primary" {% if checked_out %}DISABLED{% endif %}>
-                        <option value="0">Available</option>
-                    {% for person in persons %}
-                        {% set selected = '' %}
-                        {% if checked_out %}
-                            {# only if it is checked out do we grab the latest person #}
-                            {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
-                        {% endif %}
-                        <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
-                    {% endfor %}
-                    {% elif checked_out %}
-                        {{ latest_person.name }}
-                    {% else %}
-                        <span class="label label-success">Available</span>
-                    {% endif %}
-                    </select>
-                </td>
-                <td class="action">
-                    <input type="checkbox" class="checkbox" value="{{ item.id }}"
-                        {% if not can_edit %}DISABLED{% endif %}
-                        {% if checked_out %}CHECKED{% endif %}
-                        />
+            <tr id="item-{{ item.id }}" 
+                data-item-id="{{ item.id }}"
+                data-checked-out="{% if checked_out %}yes{% else %}no{% endif %}">
+                <td>
+                    <div class='item-data btn btn-block {% if checked_out %}btn-inverse{% endif %}'>
+                        <div class="device-name row-component" data-name='{{ item.name }}'>
+                            <strong>{{ item.name }}</strong>
+                        </div>
+                        
+                        <div class="person row-component {% if checked_out %}hidden{% endif %}">
+                            {% if can_edit %}
+                            <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
+                                <option value="0">Available</option>
+                                {% for person in persons %}
+                                    {% set selected = '' %}
+                                    {% if checked_out %}
+                                        {# only if it is checked out do we grab the latest person #}
+                                        {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
+                                    {% endif %}
+                                    <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% elif checked_out %}
+                                {{ latest_person.name }}
+                            {% else %}
+                                <span class="label label-success">Available</span>
+                            {% endif %}
+                        </div>
+                    </div>
                 </td>
             </tr>
         {% else %}
