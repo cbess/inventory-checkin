@@ -12,7 +12,9 @@
 <link rel="stylesheet" href="/static/css/toastr.css" type="text/css" charset="utf-8">
 <script src="/static/js/jquery.string.min.js"></script>
 <script src="/static/js/inventory.js"></script>
-<meta id='inventory-meta' data-confirmation-checkin="{% if confirmation.checkin %}yes{% else %}no{% endif %}">
+<meta id='inventory-meta' 
+      data-confirmation-checkin="{% if confirmation.checkin %}yes{% else %}no{% endif %}"
+      data-can-edit="{% if can_edit %}yes{% else %}no{% endif %}">
 {% endblock %}
 
 {% block top_banner %}
@@ -41,30 +43,21 @@
 
             <tr id="item-{{ item.id }}" 
                 data-item-id="{{ item.id }}"
-                data-checked-out="{% if checked_out %}yes{% else %}no{% endif %}">
+                data-checked-out="{% if checked_out %}yes{% else %}no{% endif %}"
+                data-device-name="{{ item.name }}"
+                data-person-id="{% if checked_out %}{{ latest_person.id }}{% endif %}"
+                data-person-name="{% if checked_out %}{{ latest_person.name }}{% endif %}">
                 <td>
                     <div class='item-data btn btn-block {% if checked_out %}btn-inverse{% endif %}'>
-                        <div class="device-name row-component" data-name='{{ item.name }}'>
+                        <div class="device-name row-component">
                             <strong>{{ item.name }}</strong>
                         </div>
                         
                         <div class="person row-component {% if checked_out %}hidden{% endif %}">
-                            {% if can_edit %}
-                            <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
-                                <option value="0">Available</option>
-                                {% for person in persons %}
-                                    {% set selected = '' %}
-                                    {% if checked_out %}
-                                        {# only if it is checked out do we grab the latest person #}
-                                        {% if latest_person.id == person.id %}{% set selected = 'SELECTED' %}{% endif %}
-                                    {% endif %}
-                                    <option value="{{ person.id }}" {{ selected }}>{{ person.name }}</option>
-                                {% endfor %}
-                            </select>
-                            {% elif checked_out %}
+                            {% if checked_out %}
                                 {{ latest_person.name }}
                             {% else %}
-                                <span class="label label-success">Available</span>
+                                <!-- <span class="label label-success">Available</span> -->
                             {% endif %}
                         </div>
                     </div>
@@ -76,4 +69,29 @@
         </tbody>
     </table>
 </div>
+
+{% if can_edit %}
+<!-- Checkout modal -->
+<div id="co-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="co-modal-label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="co-modal-label">Modal header</h3>
+  </div>
+  <div class="modal-body">
+      {% if can_edit %}
+      <select id="person-list">
+          <option value="0">Available</option>
+          {% for person in persons %}
+          <option value="{{ person.id }}">{{ person.name }}</option>
+          {% endfor %}
+      </select>
+      {% endif %}
+      
+  </div>
+  <div class="modal-footer">
+    <button id="co-btn-checkout" class="btn btn-primary">Checkout</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

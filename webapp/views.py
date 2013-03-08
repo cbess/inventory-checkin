@@ -92,6 +92,8 @@ def inventory_view():
 # ajax only
 @app.route('/inventory-update', methods=['POST'])
 def inventory_update_view():
+    if login.current_user.is_anonymous():
+        abort()
     # add a log
     InventoryLog(
         person=Person.objects(id=request.form['personid']).get(),

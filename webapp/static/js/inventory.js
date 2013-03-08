@@ -8,51 +8,68 @@ $(function() {
         onclick: null
 	};
     
+    var $checkoutModal = $('#co-modal');
+    var $personSelect = $('#person-list');
+    var $inventoryMeta = $('#inventory-meta');
+    
     // top banner <select> element
     $('#group-list').change(function() {
         this.form.submit();
     });
-
-    // auto-check-out when a person is selected
-    $('#inventory .person-list').change(function() {
-        $row = $(this).parents('tr');
-        sendInventoryChangeState($row, {'checked': true});
-        $row.data('checked-out', 'yes');
-    });
     
     // inventory row clicked
     $('#inventory .item-data').click(function() {
-        var checkedOut = ($(this).parents('tr').data('checked-out') == 'yes');
+        // check permissions
+        if ($inventoryMeta.data('can-edit') == 'no')
+            return;
+            
+        var $row = $(this).parents('tr');
+        var checkedOut = ($row.data('checked-out') == 'yes');
         if (checkedOut) {
-            // show check-in
-            sendInventoryChangeState($(this).parents('tr'), {'checked': false});
+            // start check-in workflow
+            sendInventoryChangeState($row, {'checked': false});
         } else { 
-            // show dropdown
-            // make fake mouse event to invoke display of the drop down
-            var event = document.createEvent('MouseEvents');
-            event.initMouseEvent('mousedown', true, true, window);
-            // send event to <select>
-            $select = $(this).find('.person select');
-            $select.get(0).dispatchEvent(event);
+            // show the check-out modal
+            $('#co-modal-label').html($row.data('device-name'));
+            $checkoutModal.data('item-id', $row.data('item-id'));
+            
+            $checkoutModal.modal('show');
         }
     });
     
+    // checkout button in modal clicked
+    $('#co-btn-checkout').click(function() {
+        $row = $('#item-'+$checkoutModal.data('item-id'));
+        
+        // set the needed person data
+        var personId = $personSelect.val();
+        if (!parseInt(personId)) {
+            alert('Please select a person.');
+            return;
+        }
+            
+        $row.data('person-id', personId);
+        var personName = $personSelect.find('option:selected').text();
+        $row.data('person-name', personName);
+        
+        sendInventoryChangeState($row, {'checked': true});
+        $row.data('checked-out', 'yes');
+        
+        $checkoutModal.modal('hide');
+    });
+    
     function sendInventoryChangeState($row, params) {
-        var $drpdwn = $row.find('.person-list');
-        var personid = $drpdwn.val();
+        var personid = $row.data('person-id');
         // if no person selected
         if (!parseInt(personid)) {
+            $row.data('checked-out', 'no');
             return;
         }
 
-        var $inventoryMeta = $('#inventory-meta');
-        var itemName = $row.find('.device-name').data('name');
-        var personName = $drpdwn.find('option:selected').text();
+        var itemName = $row.data('device-name');
+        var personName = $row.data('person-name');
         var itemid = $row.data('item-id');
         var checked = params.checked;
-        
-
-        $drpdwn.attr('disabled', checked);
 
         // if about to be checked in
         if (!checked) {
@@ -62,9 +79,6 @@ $(function() {
                     $row.data('checked-out', 'yes');
                     return;
                 }
-                
-            // select empty option
-            $drpdwn.val(0);
         }
 
         // post check in/out change
@@ -91,8 +105,6 @@ $(function() {
                 updateInventoryRow($row, checked);
             },
             error: function(req, status) {
-                $drpdwn.attr('disabled', false);
-                
                 // show the error, it persists
                 toastr.options.fadeOut = 0;
                 toastr.options.timeOut = 0;
@@ -102,8 +114,9 @@ $(function() {
                     checked ? 'out' : 'in', 
                     itemName
                 ), 'error');
-                
-                updateInventoryRow($row, !checked);
+
+                // make sure the attempted state change is reverted
+                $row.data('checked-out', !checkedOut ? 'yes' : 'no');
             }
         });
     }
