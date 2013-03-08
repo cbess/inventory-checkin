@@ -20,31 +20,37 @@
     </head>
 
     <body>
-        <div id='top-banner' class="bg-gradient-{{ site_banner_color }} navbar navbar-fixed-top">
-            <!-- Start custom banner HTML here -->
-            <span id='banner-text'><a href="/">{{ site_banner_text }}</a></span>
-            <!-- End custom banner HTML here -->
+        <div id="top-banner" class="navbar navbar-fixed-top">
+            <div class="navbar-inner {% if site_banner_color %}bg-gradient-{{ site_banner_color }}{% endif %}">
+                <div class="container">
+                    <!-- Start custom banner HTML here -->
+                    <span id='banner-text'><a class="brand" href="/">{{ site_banner_text }}</a></span>
+                    <!-- End custom banner HTML here -->
 
-            {% block top_banner %}
-            <div id="menu">
-                <div class="btn-group">
-                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    Menu
-                    <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    {% if can_edit %}
-                    <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
-                    <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
-                    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('login_view') }}">Login</a></li>
-                    <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
-                    {% endif %}
-                  </ul>
+                    {% block top_banner %}
+                    <div id="menu">
+                        <div class="btn-group">
+                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Menu
+                            <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu">
+                            {% if can_edit %}
+                            <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
+                            <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
+                            {% if current_user.is_admin %}
+                            <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                            {% endif %}
+                            {% else %}
+                            <li><a href="{{ url_for('login_view') }}">Login</a></li>
+                            <li><a href="{{ url_for('inventory_view') }}">{{ INVENTORY_ITEM_NAME_PLURAL }}</a></li>
+                            {% endif %}
+                          </ul>
+                        </div>
+                    </div>
+                    {% endblock %}
                 </div>
             </div>
-            {% endblock %}
         </div>
 
         <div id="content">

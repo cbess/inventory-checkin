@@ -37,40 +37,33 @@ label {
     font-weight: bold;
 }
 
-/*top banner styles*/
+/*
+ * Top Banner styles ***
+ */
 #top-banner {
-    height: 50px;
-    margin: -8px -8px 7px;
-    box-shadow: 5px 2px 5px #777;
 }
 .mobile #top-banner {
-    height: 73px;
 }
-#top-banner #banner-text {
-    position: relative;
-    top: 15px;
-    left: 20px;
-    color: silver;
+#top-banner #banner-text .brand {
     font-size: 20px;
-    text-shadow: 0 0 silver, -2px 0 black;
+    margin-left: 10px;
+    color: silver;
 }
-.mobile #top-banner #banner-text {
-    top: 25px;
+.mobile #top-banner #banner-text .brand {
 }
 #top-banner #menu {
     float: right;
-    position: relative;
-    right: 100px;
-    top: 9px;
 }
 .mobile #top-banner #group-list {
-    height: 50px;
     font-size: 20px;
     font-weight: bold;
     font-family: Helvetica;
+    position: inherit;
 }
 
-/* inventory styles */
+/*
+ * Inventory styles ***
+ */
 #inventory {
     font-size: 18px;
 }
@@ -96,7 +89,7 @@ label {
 }
 #inventory select {
     height: 40px;
-    margin: 0;
+    -webkit-appearance: button;
 }
 #inventory .checkbox {
     width: 40px;
@@ -121,8 +114,5 @@ label {
     line-height: inherit;
 }
 #group-form {
-    margin: 0 auto;
-    width: 300px;
-    position: relative;
-    top: -9px;
+    margin: 0;
 }

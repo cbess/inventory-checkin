@@ -5,7 +5,7 @@
 {% endif %}
 
 {% block header %}
-{% if not can_edit %}
+{% if not can_edit and inventory_auto_refresh %}
 <meta http-equiv="refresh" content="{{ inventory_auto_refresh }}">
 {% endif %}
 
@@ -45,7 +45,7 @@
                 </td>
                 <td class="person">
                     {% if can_edit %}
-                    <select class="person-list" {% if checked_out %}DISABLED{% endif %}>
+                    <select class="person-list btn btn-primary" {% if checked_out %}DISABLED{% endif %}>
                         <option value="0">Available</option>
                     {% for person in persons %}
                         {% set selected = '' %}

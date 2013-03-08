@@ -52,10 +52,10 @@ SITE_TITLE = 'InventoryMate'
 # The site banner background color. This banner is shown at the top of each page.
 # Possible values: black, blue, skyblue, silver, orange, white
 # More colors can be added to 'bg-gradients.css'
-# The banner text styles must be changed in the stylesheet: main.css (#top-banner #banner-text)
+# The banner text styles must be changed in the stylesheet: main.css (#top-banner #banner-text .brand)
 # type: string
-# default: black
-SITE_BANNER_COLOR = 'black'
+# default: None (soft white)
+SITE_BANNER_COLOR = None
 
 # The mongo database connection settings.
 # Supports:
@@ -84,7 +84,7 @@ USER_CONFIRMATION = {
 }
 
 # The number of seconds to elapse before the inventory list auto-refreshes. This 
-# is for readonly inventory users.
+# is for readonly inventory users. Set to zero to disable auto-refresh.
 # default: 30 (secs)
 INVENTORY_AUTO_REFRESH = 30
 
