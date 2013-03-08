@@ -128,3 +128,23 @@ label {
  #co-modal {
      
  }
+ /*
+ speed up the fade
+ .modal.fade{
+     -webkit-transition: opacity .1s linear, none;
+     -moz-transition: opacity .1s linear, none;
+     -ms-transition: opacity .1s linear, none;
+     -o-transition: opacity .1s linear, none;
+     transition: opacity .1s linear, none;
+ }
+ */
+ .modal.fade {
+   top: 100%;
+   -webkit-transition: opacity 0.3s linear, top 0.1s ease-out;
+/*      -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, top 0.3s ease-out;
+*/           transition: opacity 0.3s linear, top 0.1s ease-out;
+ }
+ .modal.fade.in {
+   top: 30%;
+ }

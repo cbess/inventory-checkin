@@ -53,13 +53,19 @@
                             <strong>{{ item.name }}</strong>
                         </div>
                         
-                        <div class="person row-component {% if checked_out %}hidden{% endif %}">
+                        <div class="check-out-info {% if checked_out %}hidden{% endif %}">
+                            
+                        </div>
+                        
+                        {% if not can_edit %}
+                        <div class="person row-component">
                             {% if checked_out %}
                                 {{ latest_person.name }}
                             {% else %}
-                                <!-- <span class="label label-success">Available</span> -->
+                                <span class="label label-success">Available</span>
                             {% endif %}
                         </div>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
