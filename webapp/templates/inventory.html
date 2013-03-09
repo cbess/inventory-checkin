@@ -39,7 +39,10 @@
         <tbody>
         {% for item in items %}
             {% set checked_out = item.status == 2 %}
-            {% set latest_person = item.get_latest_person() %}
+            {% set latest_log = item.get_latest_log() %}
+            {% if latest_log %}
+            {% set latest_person = latest_log.person %}
+            {% endif %}
 
             <tr id="item-{{ item.id }}" 
                 data-item-id="{{ item.id }}"
@@ -53,16 +56,15 @@
                             <strong>{{ item.name }}</strong>
                         </div>
                         
-                        <div class="check-out-info {% if checked_out %}hidden{% endif %}">
-                            
+                        <div class="check-out-info {% if not checked_out %}hidden{% endif %}">
+                            <div class="name">{% if latest_log %}{{ latest_person.name }}{% endif %}</div>
+                            <div class="duration">{% if latest_log %}({{ latest_log.checkout_description() }}){% endif %}</div>
                         </div>
                         
                         {% if not can_edit %}
                         <div class="person row-component">
-                            {% if checked_out %}
-                                {{ latest_person.name }}
-                            {% else %}
-                                <span class="label label-success">Available</span>
+                            {% if not checked_out %}
+                            <span class="label label-success">Available</span>
                             {% endif %}
                         </div>
                         {% endif %}

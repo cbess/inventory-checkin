@@ -8,7 +8,8 @@ from flask.ext import admin, login
 from core import settings as core_settings
 from core.utils import debug, read_file
 from forms import LoginForm
-from models import Person, InventoryLog, InventoryItem, InventoryGroup
+from models import Person, InventoryLog, InventoryItem,\
+     InventoryGroup, CheckoutMeta
 from datetime import datetime
 # from template_filters import register_filters
 
@@ -94,15 +95,23 @@ def inventory_view():
 def inventory_update_view():
     if login.current_user.is_anonymous():
         abort()
+    # provide meta
+    checkout_meta = CheckoutMeta(
+        duration=0,
+        duration_type=CheckoutMeta.DURATION_TYPE_UNKNOWN
+    )
     # add a log
     InventoryLog(
         person=Person.objects(id=request.form['personid']).get(),
         item=InventoryItem.objects(id=request.form['itemid']).get(),
         status=int(request.form['status']),
-        date_added=datetime.now()
+        date_added=datetime.now(),
+        checkout_meta=checkout_meta
     ).save()
     # update the item status
     item = InventoryItem.objects(id=request.form['itemid']).get()
     item.status = int(request.form['status'])
     item.save()
     return 'ok'
+    
+    

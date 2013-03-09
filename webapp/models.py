@@ -7,6 +7,9 @@ import mongoengine
 import datetime
 
 INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
+# CheckoutMeta duration type, if changed here then 
+# change CheckoutMeta.DURATION_TYPE_* values
+DURATION_TYPES = [(0, 'n/a'), (1, 'mins'), (2, 'hours'), (3, 'days')]
 
 
 class Person(db.Document):
@@ -63,15 +66,33 @@ class InventoryItem(db.Document):
     def __unicode__(self):
         return self.name
 
-    def get_latest_person(self):
-        # get the latest log for this item
+    def get_latest_log(self):
+        """Return the latest log for this item"""
         try:
             log = InventoryLog.objects(item=self).order_by('-date_added').first()
             if not log:
                 return None
         except InventoryLog.DoesNotExist:
             return None
+        return log    
+    
+    def get_latest_person(self):
+        """Return the latest person for this item"""
+        log = self.get_latest_log()
+        if not log:
+            return None
         return log.person
+
+
+class CheckoutMeta(db.EmbeddedDocument):
+    # constants
+    DURATION_TYPE_UNKNOWN = 0
+    DURATION_TYPE_MINS = 1
+    DURATION_TYPE_HOURS = 2
+    DURATION_TYPE_DAYS = 3
+    # fields
+    duration = db.FloatField(default=0)
+    duration_type = db.IntField(default=DURATION_TYPE_UNKNOWN, choices=DURATION_TYPES)
 
 
 class InventoryLog(db.Document):
@@ -79,10 +100,28 @@ class InventoryLog(db.Document):
     item = db.ReferenceField(InventoryItem)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
     date_added = db.DateTimeField(default=datetime.datetime.now)
+    checkout_meta = db.EmbeddedDocumentField(CheckoutMeta)
     meta = {'ordering': ['-date_added']}
 
     def __unicode__(self):
         return u'%s - %s' % (self.status, self.date_added)
+        
+    def checkout_description(self):
+        """Returns a human-readable description for the checkout"""
+        if not self.checkout_meta:
+            return ''
+        name = ''
+        duration = self.checkout_meta.duration
+        dtype = self.checkout_meta.duration_type
+        if dtype == CheckoutMeta.DURATION_TYPE_UNKNOWN:
+            return 'soon'
+        elif dtype == CheckoutMeta.DURATION_TYPE_MINS:
+            name = 'minute'
+        elif dtype == CheckoutMeta.DURATION_TYPE_HOURS:
+            name = 'hour'
+        elif dtype == CheckoutMeta.DURATION_TYPE_DAYS:
+            name = 'day'
+        return '%d %s%s' % (duration, name, '' if duration == 1 else 's')
 
 
 def setup():
