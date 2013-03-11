@@ -58,6 +58,13 @@ $(function() {
         $checkoutModal.modal('hide');
     });
     
+    $checkoutModal.on('hidden', function() {
+        // reset the fields
+        $('#person-list').val(0);
+        $('#duration-info #duration').val('');
+        $('#duration-info #duration-type').val(0);
+    });
+    
     function sendInventoryChangeState($row, params) {
         var personid = $row.data('person-id');
         // if no person selected
@@ -88,7 +95,9 @@ $(function() {
             data : {
                 'personid' : personid,
                 'itemid' : itemid,
-                'status' : (checked ? 2 /* check out */ : 1 /* check in */)
+                'status' : (checked ? 2 /* check out */ : 1 /* check in */),
+                'duration' : $('#duration-info #duration').val(),
+                'duration_type' : $('#duration-info #duration-type').val()
             },
             success: function(req, status, xhr) {
                 // show the notification
@@ -116,7 +125,7 @@ $(function() {
                 ), 'error');
 
                 // make sure the attempted state change is reverted
-                $row.data('checked-out', !checkedOut ? 'yes' : 'no');
+                $row.data('checked-out', !checked ? 'yes' : 'no');
             }
         });
     }

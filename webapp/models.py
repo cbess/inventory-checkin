@@ -9,7 +9,7 @@ import datetime
 INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 # CheckoutMeta duration type, if changed here then 
 # change CheckoutMeta.DURATION_TYPE_* values
-DURATION_TYPES = [(0, 'n/a'), (1, 'mins'), (2, 'hours'), (3, 'days')]
+DURATION_TYPES = [(0, 'Soon'), (1, 'Minutes'), (2, 'Hours'), (3, 'Days')]
 
 
 class Person(db.Document):

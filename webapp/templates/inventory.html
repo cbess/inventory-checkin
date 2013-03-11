@@ -86,19 +86,25 @@
     <h3 id="co-modal-label">Modal header</h3>
   </div>
   <div class="modal-body">
-      {% if can_edit %}
       <select id="person-list">
           <option value="0">Available</option>
           {% for person in persons %}
           <option value="{{ person.id }}">{{ person.name }}</option>
           {% endfor %}
       </select>
-      {% endif %}
       
+      <div id="duration-info">
+          <input type="number" name="duration" id="duration" />
+          <select name="duration_type" id="duration-type">
+              {% for dtype in duration_types %}
+              <option value="{{ dtype.0 }}">{{ dtype.1 }}</option>
+              {% endfor %}
+          </select>
+      </div>
   </div>
   <div class="modal-footer">
-    <button id="co-btn-checkout" class="btn btn-primary">Checkout</button>
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button id="co-btn-checkout" class="btn btn-primary btn-large">Checkout</button>
+    <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Cancel</button>
   </div>
 </div>
 {% endif %}

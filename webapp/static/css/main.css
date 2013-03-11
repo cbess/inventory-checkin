@@ -125,9 +125,28 @@ label {
 /*
  * Checkout Modal styles ***
  */
- #co-modal {
-     
- }
+.modal-body #duration-info {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 300px;
+}
+.modal-body #duration-type {
+    width: 200px;
+}
+.modal-body select {
+    height: 50px;
+    font-size: 20px;
+}
+.modal-body #person-list {
+    margin: 0 auto;
+    width: 100%;
+}
+.modal-body #duration {
+    width: 50px;
+    font-size: 40px;
+    height: 40px;
+    font-weight: bold;
+}
  /*
  speed up the fade
  .modal.fade{
@@ -138,13 +157,13 @@ label {
      transition: opacity .1s linear, none;
  }
  */
- .modal.fade {
+.modal.fade {
    top: 100%;
    -webkit-transition: opacity 0.3s linear, top 0.1s ease-out;
 /*      -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
         -o-transition: opacity 0.3s linear, top 0.3s ease-out;
 */           transition: opacity 0.3s linear, top 0.1s ease-out;
  }
- .modal.fade.in {
+.modal.fade.in {
    top: 30%;
- }
+}
