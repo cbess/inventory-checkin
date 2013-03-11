@@ -58,7 +58,7 @@
                         
                         <div class="check-out-info {% if not checked_out %}hidden{% endif %}">
                             <div class="name">{% if latest_log %}{{ latest_person.name }}{% endif %}</div>
-                            <div class="duration">{% if latest_log %}({{ latest_log.checkout_description() }}){% endif %}</div>
+                            <div class="duration">{% if latest_log %}{{ latest_log.checkout_description() }}{% endif %}</div>
                         </div>
                         
                         {% if not can_edit %}

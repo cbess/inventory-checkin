@@ -11,6 +11,7 @@ from forms import LoginForm
 from models import Person, InventoryLog, InventoryItem, \
      InventoryGroup, CheckoutMeta, DURATION_TYPES
 from datetime import datetime
+import json
 # from template_filters import register_filters
 
 # register template filters
@@ -108,17 +109,26 @@ def inventory_update_view():
         duration_type=dtype
     )
     # add a log
-    InventoryLog(
+    log = InventoryLog(
         person=Person.objects(id=request.form['personid']).get(),
         item=InventoryItem.objects(id=request.form['itemid']).get(),
         status=int(request.form['status']),
         date_added=datetime.now(),
         checkout_meta=checkout_meta
-    ).save()
+    )
+    log.save()
     # update the item status
     item = InventoryItem.objects(id=request.form['itemid']).get()
     item.status = int(request.form['status'])
     item.save()
-    return 'ok'
+    response = {
+        'duration': {
+            'description': log.checkout_description()
+        },
+        'person': {
+            'name' : log.person.name
+        }
+    }
+    return json.dumps(response)
     
     

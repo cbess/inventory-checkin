@@ -92,6 +92,7 @@ $(function() {
         $.ajax({
             url: '/inventory-update',
             type: 'POST',
+            dataType: 'json',
             data : {
                 'personid' : personid,
                 'itemid' : itemid,
@@ -99,7 +100,7 @@ $(function() {
                 'duration' : $('#duration-info #duration').val(),
                 'duration_type' : $('#duration-info #duration-type').val()
             },
-            success: function(req, status, xhr) {
+            success: function(data, status, xhr) {
                 // show the notification
                 toastr.options.fadeOut = 1000;
                 toastr.options.timeOut = 3000;
@@ -111,7 +112,7 @@ $(function() {
                     itemName
                 ));
                 
-                updateInventoryRow($row, checked);
+                updateInventoryRow($row, checked, $.parseJSON(xhr.responseText));
             },
             error: function(req, status) {
                 // show the error, it persists
@@ -130,9 +131,18 @@ $(function() {
         });
     }
     
-    function updateInventoryRow($row, checkedOut) {
+    function updateInventoryRow($row, checkedOut, responseJson) {
         $row.data('checked-out', checkedOut ? 'yes' : 'no');
         $row.find('.item-data').toggleClass('btn-inverse');
         $row.find('.person').toggleClass('hidden');
+        
+        // update the checkout info
+        if (checkedOut) {
+            $row.find('.check-out-info').removeClass('hidden');
+            $row.find('.check-out-info .name').html(responseJson.person.name);
+            $row.find('.check-out-info .duration').html(responseJson.duration.description);
+        } else {
+            $row.find('.check-out-info').addClass('hidden');
+        }
     }
 });
