@@ -31,11 +31,7 @@
 
 {% block content %}
 <div id="inventory">
-    <div class="alert alert-info">
-        Updated!
-    </div>
-
-    <table id="items" class="table">
+    <table id="items" class="table {% if not can_edit %}no-edit{% endif %}">
         <tbody>
         {% for item in items %}
             {% set checked_out = item.status == 2 %}

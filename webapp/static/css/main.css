@@ -106,12 +106,6 @@ label {
 #inventory .item-data {
     height: 60px;
 }
-.alert {
-    display: none;
-    position: absolute;
-    z-index: 7;
-    opacity: 0.9;
-}
 #inventory .label {
     font-size: 20px;
     line-height: inherit;
@@ -131,6 +125,9 @@ label {
 }
 #items .person .label {
     margin: 14px;
+}
+.no-edit .btn {
+    cursor: default;
 }
 
 /*
