@@ -88,6 +88,11 @@ USER_CONFIRMATION = {
 # default: 30 (secs)
 INVENTORY_AUTO_REFRESH = 30
 
+# Checkout date format
+# ref: http://docs.python.org/2/library/time.html#time.strftime
+# default: '%m/%d/%Y %I:%M%p'
+INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M%p'
+
 
 # Customzie the settings per installation
 try:

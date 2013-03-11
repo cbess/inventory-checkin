@@ -129,7 +129,8 @@ class InventoryLog(db.Document):
         
     def get_date_added(self):
         """Returns a formatted date added value"""
-        return self.date_added.strftime('%m/%d/%Y %I:%M%p')
+        # ref: http://docs.python.org/2/library/time.html#time.strftime
+        return self.date_added.strftime(settings.INVENTORY_CHECKOUT_DATE_FORMAT)
 
 
 def setup():
