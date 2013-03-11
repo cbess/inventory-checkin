@@ -82,7 +82,7 @@ def inventory_view():
         'items' : items,
         'persons' : Person.objects.all(),
         'groups' : InventoryGroup.objects.all(),
-        'duration_types' : DURATION_TYPES,
+        'duration_types' : DURATION_TYPES[1:],
         'group_id' : group_id if group_id else '',
         'title' : core_settings.INVENTORY_ITEM_NAME_PLURAL,
         'confirmation' : core_settings.USER_CONFIRMATION,

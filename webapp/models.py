@@ -108,10 +108,14 @@ class InventoryLog(db.Document):
         
     def checkout_description(self):
         """Returns a human-readable description for the checkout"""
-        if not self.checkout_meta:
-            return ''
         name = ''
+        if not self.checkout_meta:
+            return name
+        # no duration, then assume default
         duration = self.checkout_meta.duration
+        if not duration:
+            return 'soon'
+        # determine name of duration
         dtype = self.checkout_meta.duration_type
         if dtype == CheckoutMeta.DURATION_TYPE_UNKNOWN:
             return 'soon'

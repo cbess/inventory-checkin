@@ -12,7 +12,7 @@ $(function() {
     var $personSelect = $('#person-list');
     var $inventoryMeta = $('#inventory-meta');
     
-    // top banner <select> element
+    // top banner group <select> element
     $('#group-list').change(function() {
         this.form.submit();
     });
@@ -65,6 +65,10 @@ $(function() {
         $('#duration-info #duration-type').val(0);
     });
     
+    /*
+     Sends the inventory change state request from the specified row.
+     @param params {'checked': true|false}
+    */
     function sendInventoryChangeState($row, params) {
         var personid = $row.data('person-id');
         // if no person selected
