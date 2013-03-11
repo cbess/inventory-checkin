@@ -33,7 +33,6 @@ def safe_read_file(path, ignore_errors=False, encoding='utf-8'):
     try:
         contents = read_file(path, encoding=encoding)
     except Exception, e:
-        log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e
         return None

@@ -12,10 +12,16 @@ from models import Person, InventoryLog, InventoryItem, \
      InventoryGroup, CheckoutMeta, DURATION_TYPES
 from datetime import datetime
 import json
+import re
 # from template_filters import register_filters
 
 # register template filters
 # register_filters(app)
+
+# regex to get a sort number from the item name and sort the items
+sort_items_regex = None
+if core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX:
+    sort_items_regex = re.compile(core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX)
 
 
 def add_default_response(response):
@@ -29,6 +35,21 @@ def add_default_response(response):
     response['INVENTORY_ITEM_NAME_PLURAL'] = core_settings.INVENTORY_ITEM_NAME_PLURAL
     # simple mobile (iphone/ipad) check
     response['is_mobile'] = (request.headers.get('User-Agent', '').find('Mobile') >= 0)
+    
+
+def get_sorted_inventory_items(items):
+    """Sorts the specified InventoryItem objects"""
+    if not sort_items_regex:
+        return items
+    try:
+        return sorted(items, key=lambda item: int(sort_items_regex.search(item.name).group(1)))
+    except (ValueError, AttributeError), e:
+        # re-raise with more information
+        raise Exception(
+            'Unable to get an item sort number regex group, check the '
+            'INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX setting: %s = %s' %
+            (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX,
+            items[0].name if items else '?'))
 
     
 @app.route('/favicon.ico', methods=('GET',))
@@ -79,7 +100,7 @@ def inventory_view():
         items = items(group=group)
     # build response
     response = {
-        'items' : items,
+        'items' : get_sorted_inventory_items(items),
         'persons' : Person.objects.all(),
         'groups' : InventoryGroup.objects.all(),
         'duration_types' : DURATION_TYPES[1:],

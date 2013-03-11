@@ -77,6 +77,12 @@ DATABASE = {
 INVENTORY_ITEM_NAME = 'Inventory'
 INVENTORY_ITEM_NAME_PLURAL = 'Inventory'
 
+# Regular expression that grabs a group which contains the
+# number that is used for sorting the items.
+# This is useful if the item names have numbers
+# default: None (post DB sorting, sorts by name ascending)
+INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX = None
+
 # A value indicating rather the user must confirm an action.
 # default: { 'checkin' : False }
 USER_CONFIRMATION = {
