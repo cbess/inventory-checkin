@@ -1,3 +1,7 @@
+// InventoryMate
+// Created by: Christopher Bess
+// Copyright 2013
+
 $(function() {
     toastr.options = {
         // docs: http://codeseven.github.com/toastr/
