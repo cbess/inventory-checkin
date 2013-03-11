@@ -53,7 +53,7 @@ $(function() {
         $row.data('person-name', personName);
         
         sendInventoryChangeState($row, {'checked': true});
-        $row.data('checked-out', 'yes');
+        setRowCheckedOut($row, true);
         
         $checkoutModal.modal('hide');
     });
@@ -69,7 +69,7 @@ $(function() {
         var personid = $row.data('person-id');
         // if no person selected
         if (!parseInt(personid)) {
-            $row.data('checked-out', 'no');
+            setRowCheckedOut($row, false);
             return;
         }
 
@@ -83,7 +83,7 @@ $(function() {
             var confirmMsg = $.sprintf('Check in %s\nAre you sure?', itemName);
             if ($inventoryMeta.data('confirmation-checkin') == 'yes' &&
                 confirm(confirmMsg) === false) {
-                    $row.data('checked-out', 'yes');
+                    setRowCheckedOut($row, true);
                     return;
                 }
         }
@@ -126,13 +126,13 @@ $(function() {
                 ), 'error');
 
                 // make sure the attempted state change is reverted
-                $row.data('checked-out', !checked ? 'yes' : 'no');
+                setRowCheckedOut($row, !checked);
             }
         });
     }
     
     function updateInventoryRow($row, checkedOut, responseJson) {
-        $row.data('checked-out', checkedOut ? 'yes' : 'no');
+        setRowCheckedOut($row, checkedOut);
         $row.find('.item-data').toggleClass('btn-inverse');
         $row.find('.person').toggleClass('hidden');
         
@@ -144,5 +144,9 @@ $(function() {
         } else {
             $row.find('.check-out-info').addClass('hidden');
         }
+    }
+    
+    function setRowCheckedOut($row, checkedOut) {
+        $row.data('checked-out', checkedOut ? 'yes' : 'no');
     }
 });
