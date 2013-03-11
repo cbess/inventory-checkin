@@ -1,5 +1,5 @@
 // InventoryMate
-// Created by: Christopher Bess
+// Created by: Christopher Bess (https://github.com/cbess/inventory-checkin)
 // Copyright 2013
 
 $(function() {
