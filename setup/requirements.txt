@@ -3,6 +3,7 @@ jinja2
 flask-admin
 flask-login
 flask-mongoengine
+flask-cache
 # servers
 cherrypy
 tornado

@@ -99,6 +99,12 @@ INVENTORY_AUTO_REFRESH = 30
 # default: '%m/%d/%Y %I:%M%p'
 INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M%p'
 
+# Cache settings
+# ref: http://pythonhosted.org/Flask-Cache/#configuring-flask-cache
+# default: { 'CACHE_TYPE' : 'null' }
+CACHE = {
+    'CACHE_TYPE' : 'null'
+}
 
 # Customzie the settings per installation
 try:

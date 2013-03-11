@@ -2,7 +2,7 @@
 # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
 
 import os
-from core import app
+from core import app, cache
 from flask import render_template, request, abort, Response, url_for, redirect
 from flask.ext import admin, login
 from core import settings as core_settings
@@ -92,6 +92,7 @@ def logout_view():
 
 
 @app.route('/inventory/')
+@cache.cached(timeout=3)
 def inventory_view():
     items = InventoryItem.objects
     group_id = request.args.get('group')
@@ -111,6 +112,8 @@ def inventory_view():
     }
     add_default_response(response)
     return render_template('inventory.html', **response)
+# the cache key should be composed of path and query params
+inventory_view.make_cache_key = lambda *args, **kwargs: request.path+request.query_string
 
 
 # ajax only

@@ -1,5 +1,6 @@
 from cherrypy import wsgiserver as cherrypy_wsgiserver
 from flask.ext.mongoengine import MongoEngine
+from flask.ext.cache import Cache
 import flask
 import settings
 
@@ -8,6 +9,9 @@ app.config.from_object('webapp.settings')
 
 db = MongoEngine()
 db.init_app(app)
+
+cache = Cache(config=settings.CACHE)
+cache.init_app(app)
 
 
 def get_version_info(module):
