@@ -106,7 +106,7 @@ class InventoryLog(db.Document):
     def __unicode__(self):
         return u'%s - %s' % (self.status, self.date_added)
         
-    def checkout_description(self):
+    def get_checkout_description(self):
         """Returns a human-readable description for the checkout"""
         name = ''
         if not self.checkout_meta:
@@ -126,6 +126,10 @@ class InventoryLog(db.Document):
         elif dtype == CheckoutMeta.DURATION_TYPE_DAYS:
             name = 'day'
         return '%d %s%s' % (duration, name, '' if duration == 1 else 's')
+        
+    def get_date_added(self):
+        """Returns a formatted date added value"""
+        return self.date_added.strftime('%m/%d/%Y %I:%M%p')
 
 
 def setup():

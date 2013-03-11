@@ -53,8 +53,9 @@
                         </div>
                         
                         <div class="check-out-info {% if not checked_out %}hidden{% endif %}">
+                            {# if format changed here, then change inventory.js template #}
                             <div class="name">{% if latest_log %}{{ latest_person.name }}{% endif %}</div>
-                            <div class="duration">{% if latest_log %}{{ latest_log.checkout_description() }}{% endif %}</div>
+                            <div class="duration">{% if latest_log %}{{ latest_log.get_date_added() }} - {{ latest_log.get_checkout_description() }}{% endif %}</div>
                         </div>
                         
                         {% if not can_edit %}

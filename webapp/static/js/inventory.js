@@ -144,7 +144,12 @@ $(function() {
         if (checkedOut) {
             $row.find('.check-out-info').removeClass('hidden');
             $row.find('.check-out-info .name').html(responseJson.person.name);
-            $row.find('.check-out-info .duration').html(responseJson.duration.description);
+            $row.find('.check-out-info .duration').html($.sprintf(
+                // if format changed here, then change the inventory template
+                '%s - %s',
+                responseJson.duration.dateAdded,
+                responseJson.duration.description
+            ));
         } else {
             $row.find('.check-out-info').addClass('hidden');
         }

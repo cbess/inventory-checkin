@@ -123,7 +123,8 @@ def inventory_update_view():
     item.save()
     response = {
         'duration': {
-            'description': log.checkout_description()
+            'dateAdded' : log.get_date_added(),
+            'description': log.get_checkout_description()
         },
         'person': {
             'name' : log.person.name
