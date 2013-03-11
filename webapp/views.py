@@ -92,7 +92,7 @@ def logout_view():
 
 
 @app.route('/inventory/')
-@cache.cached(timeout=3)
+@cache.cached()
 def inventory_view():
     items = InventoryItem.objects
     group_id = request.args.get('group')
