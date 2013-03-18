@@ -6,6 +6,7 @@
 
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <meta name="google" value="notranslate"/>
         <title>{% block title %}{{ title }}{% endblock %} - {{ site_title }}</title>
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/css/bootstrap-responsive.min.css">
