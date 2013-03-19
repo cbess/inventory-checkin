@@ -121,18 +121,22 @@ inventory_view.make_cache_key = lambda *args, **kwargs: request.path+request.que
 def inventory_update_view():
     if login.current_user.is_anonymous():
         abort()
+    # 1 = checkin, 2 = checkout
+    status = int(request.form['status'])
+    checkout_meta = None
     # provide meta
-    dtype = int(request.form['duration_type'])
-    duration = request.form['duration']
-    try:
-        duration = int(duration)
-    except ValueError:
-        duration = 0
-    checkout_meta = CheckoutMeta(
-        duration=duration,
-        duration_type=dtype,
-        is_ooo=(True if int(request.form.get('ooo', 0)) else False)
-    )
+    if status == 2: # checkout
+        dtype = int(request.form['duration_type'])
+        duration = request.form['duration']
+        try:
+            duration = int(duration)
+        except ValueError:
+            duration = 0
+        checkout_meta = CheckoutMeta(
+            duration=duration,
+            duration_type=dtype,
+            is_ooo=(True if int(request.form.get('ooo', 0)) else False)
+        )
     # add a log
     log = InventoryLog(
         person=Person.objects(id=request.form['personid']).get(),
@@ -144,7 +148,7 @@ def inventory_update_view():
     log.save()
     # update the item status
     item = InventoryItem.objects(id=request.form['itemid']).get()
-    item.status = int(request.form['status'])
+    item.status = status
     item.save()
     response = {
         'duration': {
