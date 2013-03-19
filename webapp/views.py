@@ -117,7 +117,7 @@ inventory_view.make_cache_key = lambda *args, **kwargs: request.path+request.que
 
 
 # ajax only
-@app.route('/inventory-update', methods=['POST'])
+@app.route('/inventory/update', methods=['POST'])
 def inventory_update_view():
     if login.current_user.is_anonymous():
         abort()
@@ -130,7 +130,8 @@ def inventory_update_view():
         duration = 0
     checkout_meta = CheckoutMeta(
         duration=duration,
-        duration_type=dtype
+        duration_type=dtype,
+        is_ooo=(True if int(request.form.get('ooo', 0)) else False)
     )
     # add a log
     log = InventoryLog(

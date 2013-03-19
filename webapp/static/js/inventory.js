@@ -62,11 +62,13 @@ $(function() {
         $checkoutModal.modal('hide');
     });
     
+    // reset the modal fields
     $checkoutModal.on('hidden', function() {
         // reset the fields
         $('#person-list').val(0);
         $('#duration-info #duration').val('');
         $('#duration-info #duration-type').val(0);
+        $('#ooo').get(0).checked = false;
     });
     
     /*
@@ -98,7 +100,7 @@ $(function() {
 
         // post check in/out change
         $.ajax({
-            url: '/inventory-update',
+            url: '/inventory/update',
             type: 'POST',
             dataType: 'json',
             data : {
@@ -106,7 +108,8 @@ $(function() {
                 'itemid' : itemid,
                 'status' : (checked ? 2 /* check out */ : 1 /* check in */),
                 'duration' : $('#duration-info #duration').val(),
-                'duration_type' : $('#duration-info #duration-type').val()
+                'duration_type' : $('#duration-info #duration-type').val(),
+                'ooo' : ($('#ooo').get(0).checked ? 1 : 0)
             },
             success: function(data, status, xhr) {
                 // show the notification

@@ -93,6 +93,7 @@ class CheckoutMeta(db.EmbeddedDocument):
     # fields
     duration = db.FloatField(default=0)
     duration_type = db.IntField(default=DURATION_TYPE_UNKNOWN, choices=DURATION_TYPES)
+    is_ooo = db.BooleanField(default=False) # out of office
 
 
 class InventoryLog(db.Document):
@@ -108,24 +109,36 @@ class InventoryLog(db.Document):
         
     def get_checkout_description(self):
         """Returns a human-readable description for the checkout"""
-        name = ''
+        name = u''
         if not self.checkout_meta:
             return name
         # no duration, then assume default
         duration = self.checkout_meta.duration
         if not duration:
-            return 'soon'
+            return u'soon'
         # determine name of duration
         dtype = self.checkout_meta.duration_type
         if dtype == CheckoutMeta.DURATION_TYPE_UNKNOWN:
-            return 'soon'
+            return u'soon'
         elif dtype == CheckoutMeta.DURATION_TYPE_MINS:
-            name = 'minute'
+            name = u'min'
         elif dtype == CheckoutMeta.DURATION_TYPE_HOURS:
-            name = 'hour'
+            name = u'hr'
         elif dtype == CheckoutMeta.DURATION_TYPE_DAYS:
-            name = 'day'
-        return '%d %s%s' % (duration, name, '' if duration == 1 else 's')
+            name = u'day'
+        # format OOO
+        ooo_str = ''
+        if self.checkout_meta.is_ooo:
+            ooo_str = ' OOO'
+        # pluralize name
+        if duration > 1: 
+            name += u's'
+        description = u'{duration:.0f} {dname}{ooo}'.format(
+            duration=duration, 
+            dname=name, 
+            ooo=ooo_str
+        )
+        return description
         
     def get_date_added(self):
         """Returns a formatted date added value"""

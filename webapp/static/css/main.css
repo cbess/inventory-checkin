@@ -136,7 +136,15 @@ label {
 .modal-body #duration-info {
     margin: 0 auto;
     margin-top: 20px;
-    width: 300px;
+    width: 400px;
+}
+.modal-body #duration-info #ooo-wrap {
+    display: inline;
+    padding: 5px;
+}
+.modal-body #duration-info label {
+    display: inline;
+    font-size: 20px;
 }
 .modal-body #duration-type {
     width: 200px;
@@ -144,6 +152,13 @@ label {
 .modal-body select {
     height: 50px;
     font-size: 20px;
+}
+.mobile .modal-body #ooo {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    top: 12px;
+    margin-left: 5px;
 }
 .modal-body #person-list {
     margin: 0 auto;
