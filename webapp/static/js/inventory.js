@@ -91,11 +91,17 @@ $(function() {
         // if about to be checked in
         if (!checked) {
             var confirmMsg = $.sprintf('Check in %s\nAre you sure?', itemName);
-            if ($inventoryMeta.data('confirmation-checkin') == 'yes' &&
-                confirm(confirmMsg) === false) {
+            if ($inventoryMeta.data('confirmation-checkin') == 'yes') {
+                if (confirm(confirmMsg) === false) {
                     setRowCheckedOut($row, true);
                     return;
+                } else {
+                    var checkinText = $inventoryMeta.data('checkin-complete-msg');
+                    if (checkinText) {
+                        alert($.sprintf(checkinText, itemName));
+                    }
                 }
+            }
         }
 
         // post check in/out change

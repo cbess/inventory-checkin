@@ -13,8 +13,9 @@
 <script src="/static/js/jquery.string.min.js"></script>
 <script src="/static/js/inventory.js"></script>
 <meta id='inventory-meta' 
-      data-confirmation-checkin="{% if confirmation.checkin %}yes{% else %}no{% endif %}"
-      data-can-edit="{% if can_edit %}yes{% else %}no{% endif %}">
+      data-confirmation-checkin="{% if confirmation.checkin.confirm %}yes{% else %}no{% endif %}"
+      data-can-edit="{% if can_edit %}yes{% else %}no{% endif %}"
+      data-checkin-complete-msg="{% if confirmation.checkin.complete %}{{ confirmation.checkin.complete }}{% endif %}">
 {% endblock %}
 
 {% block top_banner %}

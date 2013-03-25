@@ -84,9 +84,17 @@ INVENTORY_ITEM_NAME_PLURAL = 'Inventory'
 INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX = None
 
 # A value indicating rather the user must confirm an action.
-# default: { 'checkin' : False }
+# default: {
+#     'checkin': { 
+#         'confirm': False, # True to show a checkin confirmation prompt
+#         'complete': "", # post-checkin complete message, empty to disable it
+#     }
+# }
 USER_CONFIRMATION = {
-    'checkin' : False
+    'checkin': { 
+        'confirm': False,
+        'complete': ""
+    }
 }
 
 # The number of seconds to elapse before the inventory list auto-refreshes. This 
