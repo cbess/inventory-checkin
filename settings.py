@@ -87,7 +87,9 @@ INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX = None
 # default: {
 #     'checkin': { 
 #         'confirm': False, # True to show a checkin confirmation prompt
-#         'complete': "", # post-checkin complete message, empty to disable it
+#         # post-checkin complete message, empty to disable it
+#         # '%s' = checked-in device name
+#         'complete': "",
 #     }
 # }
 USER_CONFIRMATION = {
