@@ -41,15 +41,21 @@ def get_sorted_inventory_items(items):
     """Sorts the specified InventoryItem objects"""
     if not sort_items_regex:
         return items
-    try:
-        return sorted(items, key=lambda item: int(sort_items_regex.search(item.name).group(1)))
-    except (ValueError, AttributeError), e:
-        # re-raise with more information
-        raise Exception(
-            'Unable to get an item sort number regex group, check the '
-            'INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX setting: %s = %s' %
-            (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX,
-            items[0].name if items else '?'))
+    def sort_key(item):
+        """Returns the key that should be sorted"""
+        try:
+            return int(sort_items_regex.search(item.name).group(1))
+        except (ValueError, AttributeError), e:
+            if not core_settings.DEBUG:
+                # return default
+                return ''
+            # re-raise with more information
+            raise Exception(
+                'Unable to get an item sort number regex group, check the '
+                'INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX setting: %s = %s' %
+                (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX,
+                items[0].name if items else '?'))
+    return sorted(items, key=sort_key)
 
     
 @app.route('/favicon.ico', methods=('GET',))

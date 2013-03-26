@@ -131,6 +131,10 @@ def init_login():
             return User.objects(id=user_id).get()
         except User.DoesNotExist:
             pass
+        except mongoengine.ValidationError:
+            pass
+        login.logout_user()
+        return None
 
 
 def setup():
