@@ -13,11 +13,12 @@ $(function() {
 	};
 
     // detect fullscreen app
+    /*
     if (('standalone' in window.navigator) && !window.navigator.standalone) {
         // set the anchor link from banner, otherwise prevents from exiting fullscreen
         $('#banner-text a').attr('href', '/');
     }
-    
+    */
     var $checkoutModal = $('#co-modal');
     var $personSelect = $('#person-list');
     var $inventoryMeta = $('#inventory-meta');

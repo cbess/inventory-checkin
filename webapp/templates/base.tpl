@@ -25,7 +25,7 @@
             <div class="navbar-inner {% if site_banner_color %}bg-gradient-{{ site_banner_color }}{% endif %}">
                 <div class="container">
                     <!-- Start custom banner HTML here -->
-                    <span id='banner-text'><a class="brand" href="#">{{ site_banner_text }}</a></span>
+                    <span id='banner-text'><a class="brand" href="javascript:void(0)">{{ site_banner_text }}</a></span>
                     <!-- End custom banner HTML here -->
 
                     {% block top_banner %}
