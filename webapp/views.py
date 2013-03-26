@@ -53,8 +53,7 @@ def get_sorted_inventory_items(items):
             raise Exception(
                 'Unable to get an item sort number regex group, check the '
                 'INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX setting: %s = %s' %
-                (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX,
-                items[0].name if items else '?'))
+                (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX, item.name))
     return sorted(items, key=sort_key)
 
     
