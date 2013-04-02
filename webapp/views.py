@@ -117,8 +117,11 @@ def inventory_view():
     }
     add_default_response(response)
     return render_template('inventory.html', **response)
-# the cache key should be composed of path and query params
-inventory_view.make_cache_key = lambda *args, **kwargs: request.path+request.query_string+unicode(login.current_user)
+    
+# the cache key should be composed of path, query params, and user
+def make_cache_key(*args, **kwargs):
+    return u''.join((request.path, request.query_string, unicode(login.current_user)))
+inventory_view.make_cache_key = make_cache_key
 
 
 # ajax only
