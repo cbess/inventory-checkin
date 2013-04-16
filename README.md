@@ -1,7 +1,7 @@
 inventory-checkin
 =================
 
-Inventory check-in/out manager, for a tablet kiosk.
+Inventory check-in/out (device) manager that supports a tablet kiosk.
 
 Review the `settings.py` file for configuration details.
 
