@@ -120,6 +120,11 @@ CACHE = {
     'CACHE_DEFAULT_TIMEOUT' : 3
 }
 
+# Remeber me exprire days
+# Number of days to set the expire days for the login cookie (remember me)
+# default: 30
+REMEMBER_ME_DAYS = 30
+
 # Customzie the settings per installation
 try:
     # Try to import local settings, which override the above settings.

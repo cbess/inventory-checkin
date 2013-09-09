@@ -1,5 +1,5 @@
 
-<form method="POST" action="" class="form-horizontal">
+<form method="POST" action="/login/" class="form-horizontal">
     {{ form.hidden_tag() }}
     {% for field in form if field.type != 'CSRFTokenField' %}
     <div class="control-group">
@@ -16,7 +16,10 @@
     {% endfor %}
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn">Sign in</button>
+            <input type="checkbox" name="remember_me" value='yes' id="remember_me" />
+            <label for="remember_me">Remember me</label>
+            <br />
+            <input type="submit" class="btn" value="Sign in" />
         </div>
     </div>
 </form>

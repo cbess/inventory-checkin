@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="/static/css/background-gradients.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
         <script src='/static/js/jquery.min.js'></script>
+        <script src='/static/js/jquery.string.min.js'></script>
         <script src='/static/js/bootstrap.min.js'></script>
         <script src='/static/js/toastr.min.js'></script>
 

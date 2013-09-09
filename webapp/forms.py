@@ -6,12 +6,11 @@ from core import utils
 
 # Define login and registration forms (for flask-login)
 class LoginForm(wtf.Form):
-    login = wtf.TextField(validators=[wtf.required()])
+    email = wtf.TextField(validators=[wtf.required()])
     password = wtf.PasswordField(validators=[wtf.required()])
 
-    def validate_login(self, field):
+    def validate_email(self, field):
         user = self.get_user()
-
         if user is None:
             raise wtf.ValidationError('Invalid user')
 
@@ -20,7 +19,7 @@ class LoginForm(wtf.Form):
 
     def get_user(self):
         try:
-            return User.objects(email=self.login.data).get()
+            return User.objects(email=self.email.data).get()
         except User.DoesNotExist:
             pass
             

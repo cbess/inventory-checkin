@@ -10,7 +10,7 @@ from core.utils import debug, read_file
 from forms import LoginForm
 from models import Person, InventoryLog, InventoryItem, \
      InventoryGroup, CheckoutMeta, DURATION_TYPES
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import re
 # from template_filters import register_filters
@@ -55,7 +55,23 @@ def get_sorted_inventory_items(items):
                 'INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX setting: %s = %s' %
                 (core_settings.INVENTORY_ITEM_NAME_SORT_NUMBER_REGEX, item.name))
     return sorted(items, key=sort_key)
+    
 
+def apply_cookies(response, user):
+    """Applies the cookies to the response, if needed"""
+    # http://flask.pocoo.org/docs/api/?highlight=cookie#flask.Response.set_cookie
+    email = user.email
+    password = user.password
+    cookie_expire_date = datetime.now() + timedelta(days=core_settings.REMEMBER_ME_DAYS)
+    # clear cookie info, if not remembered
+    if request.form.get('remember_me') is None:
+        cookie_expire_date = 0
+        email = ''
+        password = ''
+    # store info
+    response.set_cookie('username', email, expires=cookie_expire_date)
+    response.set_cookie('password', password, expires=cookie_expire_date) # yep, plaintext
+    
     
 @app.route('/favicon.ico', methods=('GET',))
 def favicon():
@@ -80,7 +96,9 @@ def login_view():
         user = form.get_user()
         login.login_user(user)
         if not user.is_admin:
-            return redirect(url_for('inventory_view'))
+            response = redirect(url_for('inventory_view'))
+            apply_cookies(response, user)
+            return response
         else:
             return redirect(url_for('admin.index'))
     response = {
