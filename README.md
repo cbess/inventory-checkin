@@ -23,12 +23,12 @@ Note: This is **beta** software.
 Instructions:
 
 1. Download [Inventory Checkin](https://github.com/cbess/inventory-checkin) source from [GitHub](https://github.com/cbess/inventory-checkin).
-1. Extract/place the source code in the desired (install) directory. This will be where the app lives.
-1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download dependencies.
+1. Clone/extract the source code in the desired (install) directory. This will be where the app lives.
+1. In the `setup` directory. Run `sh ./virtualenv-setup.sh` to setup an isolated environment and download dependencies.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
 	- Copy `settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
-1. Run `source inventorycheckin_env/bin/activate` to enter the virtual environment.
+1. Run `source inventorycheckin_env/bin/activate` to enter the virtual environment. Type `deactivate` to exit the virtual environment.
 1. Run `python main.py --runserver` to start the web server.
 1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
@@ -45,7 +45,7 @@ This web app will allow you to setup users which are either `admin` or only `aut
 
 Typical scenario (setup):
 
-CO/I = Check Out and In
+**co/i** = Check Out and In
 
 1. Login as the admin.
 1. Update the admin user credentials (if needed).

@@ -111,6 +111,7 @@ INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M%p'
 
 # Cache settings
 # ref: http://pythonhosted.org/Flask-Cache/#configuring-flask-cache
+# In production 'CACHE_TYPE' should be changed to 'simple' or 'filesystem'
 # default: { 
 #   'CACHE_TYPE' : 'null',
 #   'CACHE_DEFAULT_TIMEOUT' : 3
