@@ -8,9 +8,22 @@
 
 VENV_NAME=inventorycheckin_env
 
+# If `DistributionNotFound` error is shown then try running:
+# Download ez_setup.py - http://peak.telecommunity.com/dist/ez_setup.py
+# sudo python ez_setup.py -U setuptools
+
 # echo "Setting up virtualenv and pip"
-sudo easy_install pip
-sudo pip install virtualenv
+if command -v pip > /dev/null 2>&1 ; then
+    echo 'pip already installed'
+else
+    sudo easy_install pip
+fi
+
+if command -v virtualenv > /dev/null 2>&1 ; then
+    echo 'virtualenv already installed'
+else
+    sudo pip install virtualenv
+fi
 
 # adjust permission (allow it to be executed)
 chmod +x ../main.py
