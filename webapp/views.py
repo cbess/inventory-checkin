@@ -156,6 +156,9 @@ def inventory_update_view():
         duration = request.form['duration']
         try:
             duration = int(duration)
+            # add duration limit
+            if duration > 999:
+                duration = 999
         except ValueError:
             duration = 0
         checkout_meta = CheckoutMeta(
