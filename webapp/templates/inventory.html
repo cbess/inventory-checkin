@@ -92,7 +92,7 @@
       </select>
       
       <div id="duration-info">
-          <input type="number" name="duration" id="duration" />
+          <input type="number" name="duration" id="duration" max="999" />
           <select name="duration_type" id="duration-type">
               {% for dtype in duration_types %}
               <option value="{{ dtype.0 }}">{{ dtype.1 }}</option>
