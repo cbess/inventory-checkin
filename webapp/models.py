@@ -54,7 +54,7 @@ class InventoryGroup(db.Document):
 
 
 class InventoryItem(db.Document):
-    group = db.ReferenceField(InventoryGroup)
+    group = db.ReferenceField(InventoryGroup, dbref=True)
     name = db.StringField(max_length=255)
     identifier = db.StringField(max_length=500)
     comment = db.StringField(max_length=200)
@@ -97,8 +97,8 @@ class CheckoutMeta(db.EmbeddedDocument):
 
 
 class InventoryLog(db.Document):
-    person = db.ReferenceField(Person)
-    item = db.ReferenceField(InventoryItem)
+    person = db.ReferenceField(Person, dbref=True)
+    item = db.ReferenceField(InventoryItem, dbref=True)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
     date_added = db.DateTimeField(default=datetime.datetime.now)
     checkout_meta = db.EmbeddedDocumentField(CheckoutMeta)
