@@ -10,6 +10,8 @@ wtforms==1.0.3
 peewee==1.0.0
 flask-peewee==0.5.6
 wtf-peewee==0.1.5
+mongoengine==0.7.9
+pymongo==2.5
 # servers
 cherrypy==3.2.3
 tornado==2.4.1
