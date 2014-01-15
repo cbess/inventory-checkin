@@ -45,8 +45,8 @@
                 data-item-id="{{ item.id }}"
                 data-checked-out="{% if checked_out %}yes{% else %}no{% endif %}"
                 data-device-name="{{ item.name }}"
-                data-person-id="{% if checked_out %}{{ latest_person.id }}{% endif %}"
-                data-person-name="{% if checked_out %}{{ latest_person.name }}{% endif %}">
+                data-person-id="{% if checked_out and latest_person %}{{ latest_person.id }}{% endif %}"
+                data-person-name="{% if checked_out and latest_person %}{{ latest_person.name }}{% endif %}">
                 <td>
                     <div class='item-data btn btn-block {% if checked_out %}btn-inverse{% endif %}'>
                         <div class="device-name row-component">

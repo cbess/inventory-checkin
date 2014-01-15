@@ -111,7 +111,7 @@ INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M%p'
 
 # Cache settings
 # ref: http://pythonhosted.org/Flask-Cache/#configuring-flask-cache
-# In production 'CACHE_TYPE' should be changed to 'simple' or 'filesystem'
+# In production 'CACHE_TYPE' can be changed to 'simple', 'filesystem', etc.
 # default: { 
 #   'CACHE_TYPE' : 'null',
 #   'CACHE_DEFAULT_TIMEOUT' : 3
@@ -121,12 +121,12 @@ CACHE = {
     'CACHE_DEFAULT_TIMEOUT' : 3
 }
 
-# Remeber me exprire days
+# Remember me expire days
 # Number of days to set the expire days for the login cookie (remember me)
 # default: 30
 REMEMBER_ME_DAYS = 30
 
-# Customzie the settings per installation
+# Customize the settings per installation
 try:
     # Try to import local settings, which override the above settings.
     # In local_settings.py (in this directory), set the values for any settings
