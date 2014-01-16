@@ -4,7 +4,7 @@ from core import utils
 from server import app
 from flask.ext import admin
 import mongoengine
-import datetime
+from datetime import datetime
 
 INVENTORY_STATUS = [(1, 'Checked in'), (2, 'Checked out')]
 # CheckoutMeta duration type, if changed here then 
@@ -13,7 +13,7 @@ DURATION_TYPES = [(0, 'Soon'), (1, 'Minutes'), (2, 'Hours'), (3, 'Days')]
 
 
 class Person(db.Document):
-    name = db.StringField(max_length=80, unique=True)
+    name = db.StringField(max_length=120, unique=True)
     meta = {'ordering': ['name']}
         
     def __unicode__(self):
@@ -21,8 +21,8 @@ class Person(db.Document):
         
         
 class User(db.Document):
-    name = db.StringField(max_length=80, unique=True)
-    email = db.StringField(max_length=120)
+    name = db.StringField(max_length=120, unique=True)
+    email = db.StringField(max_length=150)
     password = db.StringField(max_length=250)
     is_admin = db.BooleanField(default=False)
     meta = {'ordering': ['name']}
@@ -54,6 +54,10 @@ class InventoryGroup(db.Document):
 
 
 class InventoryItem(db.Document):
+    # constants
+    CHECKED_IN = 1
+    CHECKED_OUT = 2
+    # fields
     group = db.ReferenceField(InventoryGroup, dbref=True)
     name = db.StringField(max_length=255)
     identifier = db.StringField(max_length=500)
@@ -100,12 +104,34 @@ class InventoryLog(db.Document):
     person = db.ReferenceField(Person, dbref=True)
     item = db.ReferenceField(InventoryItem, dbref=True)
     status = db.IntField(default=2, choices=INVENTORY_STATUS)
-    date_added = db.DateTimeField(default=datetime.datetime.now)
+    date_added = db.DateTimeField(default=datetime.now)
     checkout_meta = db.EmbeddedDocumentField(CheckoutMeta)
     meta = {'ordering': ['-date_added']}
+    person_name = db.StringField(max_length=250)
 
     def __unicode__(self):
         return u'%s - %s' % (self.status, self.date_added)
+        
+    @classmethod
+    def add_log(cls, person, item, status, checkout_meta, **kwargs):
+        log = InventoryLog(
+            person=person,
+            item=item,
+            status=int(status),
+            date_added=datetime.now(),
+            checkout_meta=checkout_meta
+        )
+        if person.name:
+            log.person_name = kwargs.get('person_name', person.name)
+        log.save()
+        return log
+        
+    def get_person_name(self):
+        """Returns the name of the person assigned to this log"""
+        if isinstance(self.person, Person):
+            return self.person.name
+        # return known/alt person name
+        return self.person_name
         
     def get_checkout_description(self):
         """Returns a human-readable description for the checkout"""

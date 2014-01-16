@@ -15,7 +15,7 @@ import forms
 
 
 def format_prop(context, model, prop_name):
-    """Format the status field value to a string"""
+    """Format the field value to a string"""
     if prop_name == 'status':
         return INVENTORY_STATUS[model.status - 1][1]
     elif prop_name == 'group':
@@ -41,9 +41,35 @@ class AdminModelView(adminview.ModelView):
         user = login.current_user
         return can_access_admin(user)
 
+
 ## Model Admins
 class PersonAdmin(AdminModelView):
     column_searchable_list = ('name',)
+    
+    def delete_model(self, model):
+        """Delete the person record and checks IN any items checked out by
+        them (inserts assoc. logs)
+        """
+        item_names = []
+        flash('Removed %s' % model.name)
+        # check in the inventory they had
+        logs = InventoryLog.objects(person=model, status=InventoryItem.CHECKED_OUT)
+        for log in logs:
+            item = log.item
+            # check in items
+            InventoryLog.add_log(
+                person=model,
+                item=item,
+                status=InventoryItem.CHECKED_IN,
+                checkout_meta=None,
+                person_name=model.name + ' - DELETED'
+            )
+            item.status = InventoryItem.CHECKED_IN
+            item.save()
+            item_names.append(item.name)
+        if item_names:
+            flash('> > Checked IN %s' % u', '.join(item_names), category='misc')
+        return super(PersonAdmin, self).delete_model(model)
 
 
 class UserAdmin(AdminModelView):
@@ -98,13 +124,15 @@ class InventoryItemAdmin(AdminModelView):
 class InventoryLogAdmin(AdminModelView):
     can_create = settings.DEBUG
     column_labels = {'date_added' : 'Date'}
+    column_list = ('person', 'item', 'status', 'date_added')
     action_disallowed_list = ('delete',) if not settings.DEBUG else []
     column_formatters = {
         'date_added' : lambda ctx, model, prop: model.date_added.strftime(DEFAULT_DATE_FORMAT),
-        'status' : format_prop
+        'status' : format_prop,
+        'person': lambda ctx, model, prop: model.get_person_name()
     }
     form_args = {'status': {'coerce': int}}
-    
+
     
 # Create customized index view class
 class AdminIndexView(admin.AdminIndexView):
