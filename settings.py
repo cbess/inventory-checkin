@@ -101,8 +101,8 @@ USER_CONFIRMATION = {
 }
 
 # The number of seconds to elapse before the inventory list auto-refreshes. This 
-# is for readonly inventory users. Set to zero to disable auto-refresh.
-# default: 30 (secs)
+# is for readonly (anonymous) inventory users.
+# default: 30 (secs, 0 to disable)
 INVENTORY_AUTO_REFRESH = 30
 
 # Checkout date format
