@@ -151,7 +151,7 @@ def inventory_update_view():
     status = int(request.form['status'])
     checkout_meta = None
     # provide meta
-    if status == 2: # checkout
+    if status == InventoryItem.CHECKED_OUT: # checkout
         dtype = int(request.form['duration_type'])
         duration = request.form['duration']
         try:
@@ -169,24 +169,22 @@ def inventory_update_view():
     person = Person.objects(id=request.form['personid']).get()
     item = InventoryItem.objects(id=request.form['itemid']).get()
     # add a log
-    log = InventoryLog(
-        person=person,
-        item=item,
-        status=int(request.form['status']),
-        date_added=datetime.now(),
-        checkout_meta=checkout_meta
+    log = InventoryLog.add_log(
+       person=person,
+       item=item,
+       status=int(request.form['status']),
+       checkout_meta=checkout_meta
     )
-    log.save()
     # update the item status
     item.status = status
     item.save()
     response = {
         'duration': {
-            'dateAdded' : log.get_date_added(),
+            'dateAdded': log.get_date_added(),
             'description': log.get_checkout_description()
         },
         'person': {
-            'name' : log.person.name
+            'name': log.person.name
         }
     }
     return json.dumps(response)
