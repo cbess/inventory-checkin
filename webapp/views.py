@@ -156,7 +156,7 @@ def inventory_update_view():
         duration = request.form['duration']
         try:
             duration = int(duration)
-            # add duration limit
+            # enforce duration limit
             if duration > 999:
                 duration = 999
         except ValueError:
@@ -166,17 +166,18 @@ def inventory_update_view():
             duration_type=dtype,
             is_ooo=(True if int(request.form.get('ooo', 0)) else False)
         )
+    person = Person.objects(id=request.form['personid']).get()
+    item = InventoryItem.objects(id=request.form['itemid']).get()
     # add a log
     log = InventoryLog(
-        person=Person.objects(id=request.form['personid']).get(),
-        item=InventoryItem.objects(id=request.form['itemid']).get(),
+        person=person,
+        item=item,
         status=int(request.form['status']),
         date_added=datetime.now(),
         checkout_meta=checkout_meta
     )
     log.save()
     # update the item status
-    item = InventoryItem.objects(id=request.form['itemid']).get()
     item.status = status
     item.save()
     response = {

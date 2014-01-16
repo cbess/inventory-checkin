@@ -31,5 +31,5 @@ def get_version_info(module):
 
 
 LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M %p'
-DEFAULT_DATE_FORMAT = '%m/%d/%Y %I:%M %p'
+DEFAULT_DATE_FORMAT = settings.ADMIN_DATE_FORMAT or '%m/%d/%Y %I:%M %p'
 SHORT_DATE_FORMAT = '%m/%d/%Y %H:%M'

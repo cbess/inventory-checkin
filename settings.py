@@ -1,4 +1,5 @@
 # inventory checkin settings
+# https://github.com/cbess/inventory-checkin - Christopher Bess - Copyright 2014
 import os
 
 # `%(app_dir)s` resolves to the directory where iMate is installed.
@@ -106,8 +107,13 @@ INVENTORY_AUTO_REFRESH = 30
 
 # Checkout date format
 # ref: http://docs.python.org/2/library/time.html#time.strftime
-# default: '%m/%d/%Y %I:%M%p'
-INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M%p'
+# default: '%m/%d/%Y %I:%M %p'
+INVENTORY_CHECKOUT_DATE_FORMAT = '%m/%d/%Y %I:%M %p'
+
+# Admin area default date format
+# ref: http://docs.python.org/2/library/time.html#time.strftime
+# default: None (uses internal default: '%m/%d/%Y %I:%M %p')
+ADMIN_DATE_FORMAT = None
 
 # Cache settings
 # ref: http://pythonhosted.org/Flask-Cache/#configuring-flask-cache

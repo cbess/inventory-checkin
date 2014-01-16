@@ -104,7 +104,8 @@ class InventoryLogAdmin(AdminModelView):
         'status' : format_prop
     }
     form_args = {'status': {'coerce': int}}
-
+    
+    
 # Create customized index view class
 class AdminIndexView(admin.AdminIndexView):
     @admin.expose('/')

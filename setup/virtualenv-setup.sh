@@ -1,5 +1,5 @@
 # global
-# Created by: Christopher Bess
+# https://github.com/cbess/inventory-checkin - Christopher Bess - Copyright 2014
 # It is recomm. not to run this script using sudo, it is used as needed.
 #
 # Run this script from this `setup` directory.
