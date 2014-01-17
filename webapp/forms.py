@@ -6,7 +6,7 @@ from core import utils
 
 # Define login and registration forms (for flask-login)
 class LoginForm(wtf.Form):
-    email = wtf.TextField(validators=[wtf.required()])
+    email = wtf.TextField('User ID', validators=[wtf.required()])
     password = wtf.PasswordField(validators=[wtf.required()])
 
     def validate_email(self, field):

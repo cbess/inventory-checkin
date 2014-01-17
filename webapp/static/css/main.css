@@ -82,6 +82,7 @@ label {
 }
 #inventory #items .btn-inverse {
     color: #888;
+    box-shadow: none;
 }
 .mobile #inventory table td {
     line-height: 60px;

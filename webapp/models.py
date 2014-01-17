@@ -22,7 +22,7 @@ class Person(db.Document):
         
 class User(db.Document):
     name = db.StringField(max_length=120, unique=True)
-    email = db.StringField(max_length=150)
+    email = db.StringField(max_length=150) # user id
     password = db.StringField(max_length=250)
     is_admin = db.BooleanField(default=False)
     meta = {'ordering': ['name']}

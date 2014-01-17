@@ -1,4 +1,4 @@
-from flask.ext import admin, login
+from flask.ext import admin, login, wtf
 from flask import flash
 from flask.ext.admin.contrib import mongoengine as adminview
 from mongoengine.queryset import Q
@@ -75,6 +75,11 @@ class PersonAdmin(AdminModelView):
 class UserAdmin(AdminModelView):
     column_list = ('name', 'email')
     column_searchable_list = ('email',)
+    column_labels = {'email': 'User ID'}
+    form_args = {
+        'email': {'label': 'User ID', 'validators': [wtf.required()]},
+        'password': {'validators': [wtf.required()]}
+    }
 
 
 class InventoryItemAdmin(AdminModelView):
