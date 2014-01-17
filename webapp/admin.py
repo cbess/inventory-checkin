@@ -84,7 +84,7 @@ class UserAdmin(AdminModelView):
 
 class InventoryItemAdmin(AdminModelView):
     form = forms.InventoryItemForm
-    column_list = ('name', 'identifier', 'status', 'group', 'date_updated')
+    column_exclude_list = ('date_added',)
     form_excluded_columns = ('date_added', 'date_updated')
     column_searchable_list = ('name', 'identifier')
     column_formatters = {
@@ -129,7 +129,7 @@ class InventoryItemAdmin(AdminModelView):
 class InventoryLogAdmin(AdminModelView):
     can_create = settings.DEBUG
     column_labels = {'date_added' : 'Date'}
-    column_list = ('person', 'item', 'status', 'date_added')
+    column_exclude_list = ('person_name',)
     action_disallowed_list = ('delete',) if not settings.DEBUG else []
     column_formatters = {
         'date_added' : lambda ctx, model, prop: model.date_added.strftime(DEFAULT_DATE_FORMAT),
