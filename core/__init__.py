@@ -27,6 +27,8 @@ def get_version_info(module):
         return mongoengine.__version__
     elif module == 'flask':
         return flask.__version__
+    elif module == 'webapp':
+        return '0.7.1'
     return '0.0'
 
 
