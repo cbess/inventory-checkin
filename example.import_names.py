@@ -13,7 +13,9 @@ skip_count = 0
 for name in names.split('\n'):
     # normalize the name
     parts = name.split(',')
-    name = '%s %s' % (parts[1].strip().title(), parts[0].strip().title())
+    name = parts[0].strip().title()
+    if len(parts) >= 2:
+        name = '%s %s' % (parts[1].strip().title(), name)
     # prevent duplicates
     if Person.objects(name=name).count():
         skip_count += 1
