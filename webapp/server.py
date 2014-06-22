@@ -10,7 +10,7 @@ def get_server_type():
     return stype
 
 # may need to comment out to run adhoc scripts (ex: migration)
-import views
+import views  # import to load view routes
 
 def run():
     """Runs the flask server
